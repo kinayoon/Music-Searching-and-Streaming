@@ -1,0 +1,72 @@
+1) DB 
+      create database genie;
+      use genie;
+ 
+ 2) Table 
+     2-1) member(회원) 
+            create table member (
+               id varchar(16) not null UNIQUE ,
+               password varchar(25) not null,
+               name varchar(25) not null,
+               email varchar(120) not null UNIQUE,
+               phone varchar(50) not null,
+               address varchar(150),
+               infoEmail tinyint(2) default 0,   <-- 0은 false, 1은 true로 가정하자!
+               infoSMS tinyint(2) default 0,
+               index idx(id)
+               primary key(id)
+          );
+
+     2-2) member_login (회원 로그인 시간기록)
+          create table member_login (
+               id varchar(16) not null,
+               loginTime timestamp not null default now(),
+               primary key (id),
+               constraint fk_id
+                    foreign key (id) references member (id)
+                         on delete cascade <--참조키가 삭제되면 외래키도 삭제
+                         on update cascade <-- 참조키가 업데이트 되면 외래키도 업데이트 
+           );
+
+2-3) Artist (아티스트)
+          create table artists (
+               artist varchar(120) not null, 
+               type varchar(100) not null,
+               years varchar(100) not null,
+               debut varchar(100) not null,
+               nationality varchar(50) not null,
+               artistInfo text,  
+               artistImg varchar(120),
+               primary key (artist)
+               );               
+     
+ 
+2-4) album(앨범)
+           create table album (
+                albumId int not null unique,
+                artist varchar(120) not null,  
+                style varchar(120) not null,
+                releaseCom varchar(50) not null,
+                entertainer varchar(120) not null,            
+                dateOfRelease varchar(60) not null,
+                albumInfo text,
+                albumImg varchar(120), 
+                primary key(albumId),
+                constraint fk_artist
+                    foreign key (artist) references album (artist)
+                         on delete cascade          
+                         on update cascade
+          );
+     
+     2-5) song (곡)
+          create table song (
+               albumId int not null unique,
+               title varchar(50) not null,
+               artist varchar(120) not null,
+               songFile varchar(120) not null,
+               primary key (albumId),
+               constraint fk_albumId
+                    foreign key (albumId) references album (albumId)
+                         on delete cascade
+                         on update cascade
+               ); 
