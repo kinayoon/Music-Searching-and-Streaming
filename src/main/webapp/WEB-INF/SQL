@@ -4,69 +4,70 @@
  
  2) Table 
      2-1) member(회원) 
-            create table member (
-               id varchar(16) not null UNIQUE ,
-               password varchar(25) not null,
-               name varchar(25) not null,
-               email varchar(120) not null UNIQUE,
-               phone varchar(50) not null,
-               address varchar(150),
-               infoEmail tinyint(2) default 0,   <-- 0은 false, 1은 true로 가정하자!
-               infoSMS tinyint(2) default 0,
-               index idx(id)
-               primary key(id)
-          );
+			CREATE TABLE `member` (
+				`id` VARCHAR(16) NOT NULL,
+				`password` VARCHAR(25) NOT NULL,
+				`name` VARCHAR(25) NOT NULL,
+				`email` VARCHAR(120) NOT NULL,
+				`phone` VARCHAR(50) NOT NULL,
+				`address` VARCHAR(150) NULL DEFAULT NULL,
+				`infoEmail` TINYINT(2) NULL DEFAULT '0',
+				`infoSMS` TINYINT(2) NULL DEFAULT '0',
+				PRIMARY KEY (`id`),
+				UNIQUE INDEX `id` (`id`),
+				UNIQUE INDEX `email` (`email`),
+				INDEX `idx` (`id`)
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
+
 
      2-2) member_login (회원 로그인 시간기록)
-          create table member_login (
-               id varchar(16) not null,
-               loginTime timestamp not null default now(),
-               primary key (id),
-               constraint fk_id
-                    foreign key (id) references member (id)
-                         on delete cascade <--참조키가 삭제되면 외래키도 삭제
-                         on update cascade <-- 참조키가 업데이트 되면 외래키도 업데이트 
-           );
+			CREATE TABLE `member_login` (
+				`id` VARCHAR(16) NOT NULL,
+				`loginTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+				PRIMARY KEY (`id`),
+				CONSTRAINT `fk_id` FOREIGN KEY (`id`) REFERENCES `member` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
+
 
 2-3) Artist (아티스트)
-          create table artists (
-               artist varchar(120) not null, 
-               type varchar(100) not null,
-               years varchar(100) not null,
-               debut varchar(100) not null,
-               nationality varchar(50) not null,
-               artistInfo text,  
-               artistImg varchar(120),
-               primary key (artist)
-               );               
+			CREATE TABLE `artists` (
+				`artist` VARCHAR(250) NOT NULL,
+				PRIMARY KEY (`artist`)
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
+			           
      
  
 2-4) album(앨범)
-           create table album (
-                albumId int not null unique,
-                artist varchar(120) not null,  
-                style varchar(120) not null,
-                releaseCom varchar(50) not null,
-                entertainer varchar(120) not null,            
-                dateOfRelease varchar(60) not null,
-                albumInfo text,
-                albumImg varchar(120), 
-                primary key(albumId),
-                constraint fk_artist
-                    foreign key (artist) references album (artist)
-                         on delete cascade          
-                         on update cascade
-          );
+			CREATE TABLE `album` (
+				`albumid` INT(11) NOT NULL AUTO_INCREMENT,
+				`album` VARCHAR(120) NOT NULL,
+				`artist` VARCHAR(120) NOT NULL,
+				`genre` VARCHAR(120) NOT NULL,
+				`releasedate` VARCHAR(40) NOT NULL,
+				PRIMARY KEY (`albumid`),
+				UNIQUE INDEX `albumid` (`albumid`),
+				INDEX `fk_artist` (`artist`)
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
+
      
      2-5) song (곡)
-          create table song (
-               albumId int not null unique,
-               title varchar(50) not null,
-               artist varchar(120) not null,
-               songFile varchar(120) not null,
-               primary key (albumId),
-               constraint fk_albumId
-                    foreign key (albumId) references album (albumId)
-                         on delete cascade
-                         on update cascade
-               ); 
+			CREATE TABLE `song` (
+				`albumid` INT(11) NOT NULL,
+				`album` VARCHAR(120) NOT NULL,
+				`title` VARCHAR(200) NOT NULL,
+				`artist` VARCHAR(120) NOT NULL,
+				`duration` FLOAT NOT NULL,
+				`tracknum` VARCHAR(50) NULL DEFAULT NULL,
+				`releasedate` VARCHAR(50) NULL DEFAULT NULL,
+				`filepath` VARCHAR(250) NOT NULL
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
