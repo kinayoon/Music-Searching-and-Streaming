@@ -2,6 +2,7 @@ package kr.kina.domain;
 
 public class AlbumVO {
 
+	int rownum;
 	int albumid;
 	String album;
 	String artist;
@@ -9,6 +10,15 @@ public class AlbumVO {
 	String releaseDate;
 	
 	public AlbumVO(){}
+	
+	
+	public int getRownum() {
+		return rownum;
+	}
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
+	}
 	
 	public int getAlbumid() {
 		return albumid;

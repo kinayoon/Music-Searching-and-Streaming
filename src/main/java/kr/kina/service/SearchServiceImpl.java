@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.SongVO;
 import kr.kina.persistence.SearchDAO;
 
 @Service
@@ -23,6 +24,12 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public List<ArtistVO> searchArtist(String searchText) throws Exception {
 		return dao.searchArtist(searchText);
+	}
+
+
+	@Override
+	public List<SongVO> searchSong(String searchText) throws Exception {
+		return dao.searchSong(searchText);
 	}
 
 }

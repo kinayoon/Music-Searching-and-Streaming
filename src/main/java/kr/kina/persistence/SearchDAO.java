@@ -2,13 +2,15 @@ package kr.kina.persistence;
 
 import java.util.List;
 
+import kr.kina.domain.AlbumVO;
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.SongVO;
 
 public interface SearchDAO {
 
 	void searchAll(String searchText) throws Exception;    //ÀüÃ¼°Ë»ö
 	List<ArtistVO> searchArtist(String searchText) throws Exception; //¾ÆÆ¼½ºÆ®
-	void searchAlbum(String searchText) throws Exception;  //¾Ù¹ü
-	void searchSong(String searchText) throws Exception;	//°î
+	List<AlbumVO> searchAlbum(String searchText) throws Exception;  //¾Ù¹ü
+	List<SongVO> searchSong(String searchText) throws Exception;	//°î
 	
 }

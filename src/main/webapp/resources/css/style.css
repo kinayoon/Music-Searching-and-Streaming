@@ -1,14 +1,3 @@
-/* Default */
-/*#background-area {
-	width:100%;
-	height:100%;
-	background: url(../images/bg2.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-}*/
-
 .container {
 	width: 1100px !important;
 }
@@ -56,36 +45,9 @@
 }
 
 
-/*header*/
-.loginInfo {
-	padding-top: 15px;
-    text-align: right;
-}
-.loginInfo div a {
-	color:#888;
-}
-
-/*----search-----*/
-#main-area {
-	
-}
-#search-area{
-	width: 800px;
-    margin: 0 auto;
-    padding: 140px 0px;
-    text-align: center;
-}
-#searchBox{
-	text-align: left;
-    width: 535px;
-    margin: 0 auto;
-}
-
-.searchTitle {
-	font-size: 45px;
-	padding-bottom:20px;
-}
-/*---- header -----*/
+/*         
+*   header
+*/ 
 #header-area{
 	border-bottom: #efefef 2px solid;
 	padding-bottom: 15px;
@@ -96,6 +58,143 @@
 	width: 150px;
     display: inline-block;
 }
+
 #header-area #afterSearch {
 	display:inline;
 }
+
+.loginInfo {
+	padding-top: 15px;
+    text-align: right;
+}
+
+.loginInfo div a {
+	color:#888;
+}
+
+
+
+/*         
+*   main.jsp (main page)
+*/         
+
+#search-area{
+	width: 800px;
+    margin: 0 auto;
+    padding: 140px 0px;
+    text-align: center;
+}
+
+#searchBox{
+	text-align: left;
+    width: 535px;
+    margin: 0 auto;
+}
+
+.searchTitle {
+	font-size: 45px;
+	padding-bottom:20px;
+}
+
+
+/*         
+*   searchMain.jsp
+*/   
+#result {
+	width: 100%;
+    height: 100%;
+    position: relative;
+    margin-bottom: 22px;
+}
+
+#section {
+	width: 100%;
+    height: 100%;
+    padding: 10px 0px;
+}
+
+.box {
+	width: 320px;
+    min-height: 70px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom:20px;
+    padding: 15px;
+  	background: #efefef;
+    border: 1px solid #eee; 
+}
+
+.songBox table {
+    width: 100%;
+    height: 100%;
+    position:relative;
+}
+
+.songBox table th {
+	padding: 5px 0px;
+}
+
+.songBox table th .col-1{
+	width: 5%;
+    text-align: center;
+}
+
+.songBox table th .col-2, .col-2 .no {
+	width: 5%;
+	text-align:center;
+}
+
+.songBox table th .col-3 {
+	width: 20%;
+	text-align:left;
+}
+
+.songBox table th .col-4{
+	width: 16%;
+	text-align:left;
+}
+
+.songBox table th .col-5{
+	width: 16%;
+	text-align:left;
+}
+
+.songBox table th .col-6 {
+	width: 8%;
+	text-align:left;
+}
+
+.songBox table th .col-7 {
+	width: 8%;
+	text-align:left;
+}
+
+.songBox table th .col-8{
+	width: 8%;
+	text-align:left;
+}
+
+.resultText{
+	font-size:24px;
+}
+
+.resultInfo {
+	font-size:14px;
+}
+
+.resultInfo span {
+	color:#1fd871;
+	font-weight:bold;
+}
+
+.artistName, .songName{
+	font-size:18px;
+	font-weight:bold;
+	padding-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+}
+.artistName span, .songName span{
+	color:#999;
+}
+
+

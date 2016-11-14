@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import kr.kina.domain.AlbumVO;
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.SongVO;
 
 @Repository
 public class SearchDaoImpl implements SearchDAO{
@@ -31,15 +33,13 @@ public class SearchDaoImpl implements SearchDAO{
 	}
 
 	@Override
-	public void searchAlbum(String searchText) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public List<AlbumVO> searchAlbum(String searchText) throws Exception {
+		return null;
 	}
 
 	@Override
-	public void searchSong(String searchText) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public List<SongVO> searchSong(String searchText) throws Exception {
+		return session.selectList(namespace+".searchSong", searchText);
 	}
 
 }
