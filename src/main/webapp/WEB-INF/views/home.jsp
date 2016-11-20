@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/header.jsp" %>
-<script>
-var searchT;
-$(document).ready(function(){
-	$('#searchText').keyup(function(){
-		searchT = $('#searchText').val();
-	});
-});
-</script>
 <body>
 <div id="header-area">
 <div class="container">
@@ -34,14 +26,24 @@ $(document).ready(function(){
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="/resources/js/bootstrap.min.js"></script> 
+
 <script>
+var searchT;
+
+ $(document).ready(function(){
+	$('#searchText').keyup(function(){
+		searchT = $('#searchText').val();
+	});
+});
+
 $('#searchEnter').click(function(){
 	if(searchT == null){
 		alert("검색어를 입력해주세요.");
 		$('#searchBox').attr('action','');
 		window.location.href = window.location.href.split("?")[0];
 	}
-});
+}); 
+
 </script>
 </body>
 </html>

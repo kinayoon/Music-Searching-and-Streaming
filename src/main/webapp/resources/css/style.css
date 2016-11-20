@@ -114,7 +114,7 @@
 }
 
 .box {
-	width: 320px;
+	width: 270px;
     min-height: 70px;
     float: left;
     margin-right: 20px;
@@ -187,13 +187,13 @@
 	font-weight:bold;
 }
 
-.artistName, .songName{
+.artistName, .songName, .albumName {
 	font-size:18px;
 	font-weight:bold;
 	padding-bottom: 8px;
     border-bottom: 1px solid #ccc;
 }
-.artistName span, .songName span{
+.artistName span, .songName span, .albumName span{
 	color:#999;
 }
 

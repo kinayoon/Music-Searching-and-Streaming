@@ -26,6 +26,7 @@
 	</mvc:interceptor>
 </mvc:interceptors>
 
+<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 
 <!-- threadPool 
 <bean class="org.springframework.scheduling.concurrent.ConcurrentTaskExecutor" id="taskExecutor" >

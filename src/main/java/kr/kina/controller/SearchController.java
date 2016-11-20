@@ -11,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.kina.domain.AlbumVO;
 import kr.kina.domain.ArtistVO;
 import kr.kina.domain.SongVO;
 import kr.kina.service.SearchService;
@@ -34,20 +36,43 @@ public class SearchController {
 		
 		List<SongVO> songVO = service.searchSong(queryText);
 		List<ArtistVO> artistVO = service.searchArtist(queryText);
+		List<AlbumVO> albumVO = service.searchAlbum(queryText);
+				
+		//검색어: null
+		if(queryText.equals(null)){
+			log.info("-----------------------");
+			model.addAttribute("searchText", queryText);
 		
-		//검색결과 : null
-		if(artistVO.size() == 0){
-			log.info("---------------------------------------------------------------");
-			model.addAttribute("artistNum", 0);
-		}
-		model.addAttribute("searchText", queryText);
-		
-		//곡 검색
-		model.addAttribute("songList", songVO);
-		model.addAttribute("songNum", songVO.size());
-		
-		//아티스트 검색
-		model.addAttribute("artistList", artistVO);
-		model.addAttribute("artistNum", artistVO.size());
+		}else {
+			model.addAttribute("searchText", queryText);
+			
+			//곡 검색 - 10개
+			model.addAttribute("songList", songVO);
+			model.addAttribute("songNum", songVO.size());
+			
+			//아티스트 검색 - 6 (3x3)
+			model.addAttribute("artistList", artistVO);
+			model.addAttribute("artistNum", artistVO.size());
+			
+			//앨범 검색 - 6 (3x3)
+			model.addAttribute("albumList", albumVO);
+			model.addAttribute("albumNum", albumVO.size());
+		}	
+	}
+	
+	@RequestMapping(value="/searchMain", method=RequestMethod.POST)
+	public void searchMainPost(@RequestParam("title") String title,
+			@RequestParam("artist") String artist,
+			@RequestParam("album") String album,
+			@RequestParam("duration") String duration,
+			@RequestParam("filePath") String filepath
+			) throws Exception {
+		System.out.println("팝업만 띄워주면 된다.");
+		//여기서 팝업을 띄워주는거지..web
+	}
+	
+	@RequestMapping(value="/searchArtist", method=RequestMethod.GET)
+	public void searchArtist(@RequestParam("query") String txt, Model model) throws Exception {
+		log.info("searchArtist Controller .... ");
 	}
 }

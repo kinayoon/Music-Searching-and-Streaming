@@ -32,8 +32,12 @@
 	(select @rownum:=0) R	 
 </select>
 
-<!--  <select id="searchAlbum" parameterTye="String" resultType="kr.kian.domain.AlbumVO">
-	
-</select> -->
+<select id="searchAlbum" parameterType="String" resultType="kr.kina.domain.AlbumVO">
+	select
+	album, artist, genre, releasedate
+	from album
+	where album 
+	like CONCAT('%', #{queryText}, '%')
+</select>
 
 </mapper>

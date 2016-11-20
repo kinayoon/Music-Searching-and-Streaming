@@ -34,7 +34,7 @@ public class SearchDaoImpl implements SearchDAO{
 
 	@Override
 	public List<AlbumVO> searchAlbum(String searchText) throws Exception {
-		return null;
+		return session.selectList(namespace+".searchAlbum", searchText);
 	}
 
 	@Override
