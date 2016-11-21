@@ -135,7 +135,7 @@ function popupWin(no){
 		data : JSON.stringify(formObj),
 		contentType : "application/json; charset=UTF-8",
 		success : function(d){
-			childWin = window.open("/player/webplayer", "Player", option);
+			childWin = window.open("/player/webplayer?no="+no, "Player", option);
 		},
 		error : function(e){
 			alert("실패");
