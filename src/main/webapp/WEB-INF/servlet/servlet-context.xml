@@ -13,6 +13,7 @@
 <mvc:annotation-driven />
 
 <mvc:resources mapping="/resources/**" location="/resources/" />
+<mvc:resources mapping="/songs/**" location="file:///d:/genie data/" />
 
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	<property name="prefix" value="/WEB-INF/views/" />

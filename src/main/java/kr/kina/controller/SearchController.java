@@ -60,19 +60,26 @@ public class SearchController {
 		}	
 	}
 	
-	@RequestMapping(value="/searchMain", method=RequestMethod.POST)
+	/*@RequestMapping(value="/searchMain", method=RequestMethod.POST)
 	public void searchMainPost(@RequestParam("title") String title,
 			@RequestParam("artist") String artist,
 			@RequestParam("album") String album,
 			@RequestParam("duration") String duration,
-			@RequestParam("filePath") String filepath
-			) throws Exception {
-		System.out.println("팝업만 띄워주면 된다.");
-		//여기서 팝업을 띄워주는거지..web
+			@RequestParam("filePath") String filepath) throws Exception {
+	}
+	*/
+	@RequestMapping(value="/searchArtists", method=RequestMethod.GET)
+	public void searchArtists(@RequestParam("query") String searchTxt, Model model) throws Exception {
+		log.info("searchArtist Controller .... ");
 	}
 	
-	@RequestMapping(value="/searchArtist", method=RequestMethod.GET)
-	public void searchArtist(@RequestParam("query") String txt, Model model) throws Exception {
-		log.info("searchArtist Controller .... ");
+	@RequestMapping(value="/searchSongs", method=RequestMethod.GET)
+	public void searchSongs(@RequestParam("query") String searchTxt) throws Exception {
+		log.info("searchSongs Controller .... ");
+	}
+	
+	@RequestMapping(value="/searchAlbums", method=RequestMethod.GET)
+	public void searchAlbums(@RequestParam("query") String searchTxt) throws Exception {
+		log.info("searchAlbums controller .... ");
 	}
 }

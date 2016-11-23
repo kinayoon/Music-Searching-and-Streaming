@@ -7,21 +7,11 @@ import java.text.SimpleDateFormat;
 public class StreamingVO implements Serializable{
 
 	private static final long serialVersionUID = 12L;
-	private int no;
 	private String title;
 	private String artist;
 	private String album;
-	private String duration;
 	private String filePath;
-	
-
-	public int getNo() {
-		return no;
-	}
-	public void setNo(int no) {
-		this.no = no;
-	}
-	
+		
 	public String getTitle() {
 		return title;
 	}
@@ -39,12 +29,6 @@ public class StreamingVO implements Serializable{
 	}
 	public void setAlbum(String album) {
 		this.album = album;
-	}
-	public String getDuration() {
-		return duration;
-	}
-	public void setDuration(String duration) {
-		this.duration = duration;	
 	}
 	public String getFilePath() {
 		return filePath;

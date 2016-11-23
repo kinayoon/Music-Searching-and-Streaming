@@ -9,26 +9,30 @@
 <link href="<c:url value="/resources/css/webPlayer.css"/>" rel="stylesheet">
 <title>Music Player</title>
 <script>
-
-//global variables
-var currentfileValue="";
-var audio = $("#myAudio");
-var	playBtn = $("#playBtn");
-var	audioURL = $("#currentfile");
-
 $(document).ready(function(){
-	//parsing data from parent (searchMain.jsp)
+	
+	//parsing data from parent window(searchMain.jsp)
 	opener.sendChildObj(document.all.songData);
+	opener.toPopup = this;
+	
+	function call(arr,url){
+		console.log(arr);
+		console.log(url);
+	}
 	
 	function dynamicList(){
 		arr = $('#songData').text().split(':');
 		
-		var url = arr[6]+":"+arr[7];
 		var date = new Date(parseInt(arr[4]));
 		var mm = date.getMinutes();
 		var ss = date.getSeconds();
 		
-		//add list
+		//add songTitle
+		//show song's title --> 곡이 다음곡으로 넘어가면서 title도 다음곡으로 넘어가줘야함.
+		var headerTitle = $(".playnow-title");
+		headerTitle.text(arr[1]);
+		
+		//add songList
 		var list = $('.songlist').find('tbody');
 		var listNo = "<tr><td class='no'>" + arr[0] + "</td>";
 		var listTitle = "<td class='title'>" + arr[1] + "</td>";
@@ -36,50 +40,32 @@ $(document).ready(function(){
 		var listAlbum = "<td class='album'>" + arr[3] + "</td>";
 		var listDuration = "<td class='duration'>" + mm + ":" + ss + "</td></tr>"; 
 		list.append(listNo).append(listTitle).append(listArtist).append(listAlbum).append(listDuration);
-	
-		setTitlePlayer(arr[1]);
-		setCurrentfile(url);
-	}
-	
-	//show song's title
-	function setTitlePlayer(title){
-		$(".playnow-title").text(title);
-	}
-	
-	function setCurrentfile(url){
-		var path = url.replace(/\\/g,"//");
-		audioURL.value = "file:///"+path;
-		console.log(audioURL.value);
-	}
-	
-	//Run
-	dynamicList();	
+	}	
+	dynamicList();
 });
 
 </script>
 </head>
 <body>
 	<p id="songData"></p> 
-	
+	<p id="getAudioSrc"></p>
+		
 	<div class="play-area">
 		<div class="playnow-title"></div>
-		<p>
-			<input type="file" id="currentfile" value="" />
-		</p>
-		<audio id="myAudio">HTML5 audio not supported</audio>
-		<button id="playBtn" onclick="playAudio();">play</button>
-		
+		<audio id="myAudio" src="<c:url value='${audiosrc}'/>" controls="controls" autoplay></audio>
+		<input type="checkbox" name="loopcheck">반복재생</input>
 	</div><!-- .play-area END -->
 	
 	<div class="play-list">
 		<table class="songlist">
 			<thead>
 				<tr>
-					<th class="no">No.</th>
-					<th class="song_t">곡명</th>
-					<th class="song_a">아티스트</th>
-					<th class="song_al">앨범</th>
-					<th class="duration">시간</th>
+					<th class="th_no">No.</th>
+					<th class="th_song">곡명</th>
+					<th class="th_song">아티스트</th>
+					<th class="th_song">앨범</th>
+					<th class="th_duration">시간</th>
+					<th class="th_playsong">듣기</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -89,33 +75,19 @@ $(document).ready(function(){
 	</div> <!-- .play-list END -->
 </body>
 <script>
-
-
-//all about audio
 function playAudio(){
-  
-	  try{
-		  	audio.src = audioURL.value;
-		  	console.log(audio.src);
-	  	 	if(audio.paused){
-		  		audio.play();
-	  	 	}
-		/* if(audioURL.value !== currentfileValue){  //목록에 추가된 url과 원래 있던 url이 다르면, 다른 곡이 들어왔으므로 재생목록에 추가시키기.
-			audio.src = audioURL.value;
-			currentfileValue = audioURL.value;
-		}  
+	var audio = $("#myAudio");
+	var beforefileValue = new Array();
 		
-		if(audio.paused){
-			audio.play();
-		}else {
-			audio.paused();
-		} */
-	  
-	  }catch(err){
-		console.log("Error : "+ err);  
-	  }
-   //}//.if END
-  
-}//.playAudio END
+	//	audio.val();  //기존에 들어왔던 src값 
+	var afterfileValue= "";  //나중에 추가된 src값 
+	var currentfileValue="";
+	
+	$("input[name='loopcheck']").click(function(){
+		if( $(this).is(':checked')){
+			audio.loop = true;
+		}
+	});
+} playAudio();
 </script>
 </html>

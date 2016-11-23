@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
 
-#songData {
+#songData, #getAudioSrc {
 	display:none;
 }

@@ -27,10 +27,6 @@
 	text-align:left;
 }
 
-.album {
-	float:left;
-}
-
 #signUp {
 	display:block;
 	text-align: left;
@@ -113,15 +109,40 @@
     padding: 10px 0px;
 }
 
-.box {
-	width: 270px;
+.box, .albumBox .box {
+	width: 245px;
+	height: 80px;
     min-height: 70px;
     float: left;
-    margin-right: 20px;
-    margin-bottom:20px;
-    padding: 15px;
+    margin: 0px 10px 20px 10px;
   	background: #efefef;
     border: 1px solid #eee; 
+}
+
+.box .box-title {
+	display:inline-block;
+	overflow: hidden;
+	text-overflow:ellipsis-word;
+	padding: 11px;
+    margin: 0px;
+}
+
+.albumBox .box {
+	height: 130px;
+    min-height: 125px;
+}
+
+.albumBox .box .inner-box {
+	width:100%;
+	padding:13px 10px 10px 10px;
+}
+
+.albumBox .album {
+	display:inline-block;
+	font-weight: bold;
+	font-size: 15px; 
+	margin-bottom: 5px;
+    width: 215px;
 }
 
 .songBox table {
@@ -129,6 +150,12 @@
     height: 100%;
     position:relative;
 }
+
+.songBox table td {
+	overflow: hidden;
+	text-overflow:ellipsis-word;
+}
+
 
 .songBox table th {
 	padding: 5px 0px;
@@ -139,15 +166,26 @@
     text-align: center;
 }
 
-.songBox table th .col-2, .col-2 .no {
-	width: 5%;
+.songBox table .col-2{
+	width: 4%;
 	text-align:center;
 }
 
-.songBox table th .col-3 {
-	width: 20%;
+.songBox table td .num {
+	text-align: center;
+}
+
+.songBox table .col-3 {
+	/*width: 53%;*/
 	text-align:left;
 }
+
+.songBox table .col-3 .title, .songBox table td .title {
+    padding-left: 5px;
+    overflow:hidden;
+	text-overflow:ellipsis-word;
+}
+
 
 .songBox table th .col-4{
 	width: 16%;
