@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <% request.setCharacterEncoding("utf-8"); %>
+
 <script>
 document.title="${searchText}"+"- 통합검색";
 </script>
@@ -64,7 +65,6 @@ document.title="${searchText}"+"- 통합검색";
 					<th class="col-5"><div class="album">앨범</div></th>
 					<th class="col-6"><div class="likeit">좋아요</div></th>
 					<th class="col-7"><div class="playnow">듣기</div></th>
-					<th class="col-8"><div class="addlist">담기</div></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -79,7 +79,7 @@ document.title="${searchText}"+"- 통합검색";
 			%>
 				<c:forEach items="${songList}" var="songVO" begin="0" end="${moreSongList}">
 					<tr>
-						<td><div class="checkSong"><input type="checkbox" name="addsong"/></div></td>
+						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${songVO.rownum}"/></div></td>
 						<td><div class="num">${songVO.rownum}</div></td>
 						<td><div class="title">${songVO.title}</div></td>
 						<td><div class="artist">${songVO.artist}</div></td>
@@ -98,13 +98,12 @@ document.title="${searchText}"+"- 통합검색";
 							</form>
 							
 						</div></td>
-						<td><div class="add"><a href="javascript:playadd(${songVO.rownum});">담기</a></div></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 			<tr>
 				<span class="playAll"><a href="javascript:playAllNow();">전체듣기</a></span> <span> | </span>
-				<span class="playOne"><a href="javascript:playEachNow(${songVO.rownum});">선택듣기</a></span>
+				<span class="playOne"><a href="javascript:playAdd();">담기</a></span>
 			</tr>
 		</table>		
 	</div><!-- .songBox END -->
@@ -149,7 +148,6 @@ document.title="${searchText}"+"- 통합검색";
 	<% } %>
 		
 	</div><!-- .result END -->
-
 </div><!-- .container END -->
 
 
@@ -161,10 +159,10 @@ document.title="${searchText}"+"- 통합검색";
    } 
 */
 //Global Var
-var popupPlayer;
-var no;
-var playform;  //바로 한곡 듣기
-var allArr;   //전체 곡의 데이터
+var popupPlayer;  //플레이어 팝업
+var playform;  //한곡 데이터
+var dataforPrint;  //플레이어 팝업에 뿌려줄 총 데이터
+doc = document;  //한번만 window객체 불러오게끔.
 
 //전체 체크 리스너
 $("#totalListCheck").click(function(){
@@ -175,66 +173,102 @@ $("#totalListCheck").click(function(){
 	}
 });
 
+//Add Song 
+function checkedSong(){
+	var check = $("input[name='addsong']:checked");
 
-// One Play :  한곡듣기 
-function playnow(no){
-	popupWin(no);
-	this.no=no;
+	if(	$("input[name='addsong']").is(":checked") ){
+		var len = check.length;
+		var numArr = new Array();
+		var i = 0;
+		
+		if(len > 1){
+			check.each(function(index){
+				numArr[i] = $(this).val();
+				i++;
+			});
+		}else if(len == 1){
+			numArr[0] = check.val();
+		}
+	}
+	return parseInt(numArr);
 }
 
-// One Add : 한곡 담기
-function playadd(no){
+//Create Selected Song Data
+function playAdd(){
+	var arr = checkedSong();
+	console.log(arr);
+	var addSongArr = new Array();  //total selected data
+	var eachForm = doc.paramvalue;
 	
-	if(typeof popupPlayer === "undefined" || popupPlayer.closed){ //새창띄우고,한곡듣기
-		popupWin(no);
+	console.log(eachForm); //undefined
 	
-	}else {  // 이미 창이 있다면, 담기
-		var arr = new Array(no);
-		playform = document.paramValue[no-1];
-		var sendData = {
-			"filePath" : playform.filePath.value		
+	for(var i=0; i<arr.length; i++){
+		var Obj = {
+	//			eachForm[(arr[i]-1)];
 		};
-		
-		$.ajax({  //JSON으로 받아주고.. URL은..넘겨주고..
-			type : "POST",
-			url  : "/player/add",
-			data : JSON.stringify(sendData),
-			contentType : "application/json; charset=UTF-8",
-			success : function(songURL){
-				alert("담기 데이터전송 성공 : " + songURL + "같은가?" + playform.filePath.value);  //담게 될 url
-				
-				//popupPlayer에서 opener함수 실행시켜서 serarchMain.jsp(부모창)에 있는 값을 가져다가  append시켜야함.
-				//현재 재생 중인 곡이 있다면 끝나고 새로고침해서 audio append시키고, 현재 담은 곡부터 재생시키기.
-				//기존의 있던 곳들까지 새로고침되므로 arraylist에 저장해두고, 새로고침할 때 함께 append되게끔.
-			},
-			error : function(e){
-				alert("담기 데이터전송 실패");
-			},
-			headers : {
-				'Accept' : 'application/json; charset=UTF-8',
-				'Content-Type' : 'application/json; charset=UTF-8'
-			} 
-		});
+	}	
+}
 
-	}//.else END		
-}		
+//Play One (1)
+function playnow(no){
+	this.no = no;
+	playform = doc.paramValue[no-1];
+	console.log(playform);
+	var oneObj = {
+			"title" : playform.title.value,
+			"artist" : playform.artist.value,
+			"album" : playform.album.value,
+			"duration" : playform.duration.value,
+			"filePath" : playform.filePath.value
+	};
+	var oneArr = new Array();
+	oneArr.push(oneObj);
+	playing(oneArr); 
+}
 		
-// All Playing : 전체듣기 (15)
+//Play All (15)
 function playAllNow(){
-		
 	if( $("#totalListCheck").prop("checked") ){ //전체 체크되어 있다면 데이터 넘길 준비 완료됨.
-		playAlltoContr();
+		playing(allDataConverter());
 	}else {  //전체 체크가 되어있지 않다면, 전체체크해주고 데이터 넘기기
 		$("input[name='addsong']").prop("checked", true);
 		$("#totalListCheck").prop("checked", true);
-		playAlltoContr();
+		playing(allDataConverter());
 	}
 }
 
-// All Data to Controller
-function playAlltoContr(){
-	allArr = new Array();
-	var allforms = document.paramValue;
+//popup Player & Play song
+function playing(data){
+	
+	$.ajax({
+		type : "POST",
+		url  : "/player/webplayer",  //AudioURL뽑아와서,
+		data : JSON.stringify(data),
+		success : function(urlData){ //여기서 AudioURL를 받음
+			dataforPrint = urlData; //뿌려줄 데이터 
+			
+			var option = "width=650, height=450, resizeable=no, scrollbars=yes, left=220, top=50";	
+			popupPlayer = window.open("", "Player", option);
+			
+			$.get("/player/webplayer", function(){
+				popupPlayer.location ="/player/webplayer";
+			});
+		},
+		error : function(err){
+			alert("Failed get URL Data");
+		},
+		headers : {
+			'Accept' : 'application/json; charset=UTF-8',
+			'Content-Type' : 'application/json; charset=UTF-8'
+		}
+	});
+}
+
+//formElement --> Array
+function allDataConverter(){
+	var allArr = new Array();
+	var allforms = doc.paramValue;
 	for(var i=0; i<allforms.length; i++){
 		var dataObj = {
 				"title" : allforms[i].title.value,
@@ -245,79 +279,8 @@ function playAlltoContr(){
 		};
 	   allArr.push(dataObj);
 	}
-	$.ajax({
-		type : "POST",
-		url : "/player/playAll",
-		data : JSON.stringify(allArr),
-		success : function(data){ //audioURL
-			var option = "width=550, height=450, resizeable=no, scrollbars=yes, left=120, top=50";
-			
-			if( !popupPlayer || popupPlayer.closed ){
-				popupPlayer = window.open("", "Player", option);
-				playform.action= "/player/webplayer";
-				playform.target ="Player";
-				playform.method = "POST";
-				playform.submit();
-				
-			}else{
-				//self.blur();
-				//popupPlayer.focus();
-				popupPlayer.location.reload();
-			}
-			
-			
-		},
-		error : function(err){
-			alert("전체재생 실패");
-		},
-		headers : {
-			'Accept' : 'application/json; charset=UTF-8',
-			'Content-Type' : 'application/json; charset=UTF-8'
-		} 
-	});
+	return allArr;
 }	
-
-		
-// All Each : 선택듣기 
-function playEachNow(){
-	
-}
-
-// 한 곡 듣기	
-function popupWin(no){
-	var arr = new Array(no);
-	var option = "width=550, height=450, resizeable=no, scrollbars=yes, left=120, top=50";
-	playform = document.paramValue[no-1];
-
-	  // 새창 띄워주기 : 바로듣기	
-		$.ajax({
-			type : "GET",
-			url : "/player/webplayer?no="+ encodeURIComponent(JSON.stringify({"no":no})),
-			data : JSON.stringify({"no":no}), 
-			contentType : "application/json; charset=UTF-8",
-			success : function(data){
-				popupPlayer = window.open("", "Player", option);
-				playform.action= "/player/webplayer";
-				playform.target ="Player";
-				playform.method = "POST";
-				playform.submit();
-			},
-			error : function(e){
-				alert("실패");
-			},
-			headers : {
-				'Accept' : 'application/json; charset=UTF-8',
-				'Content-Type' : 'application/json; charset=UTF-8'
-			} 
-		});
-}	 
-
-//한 곡 듣기 & 한 곡 담기 클릭시, popupPlayer의 HTML에 쓰여지게 될 함수.
-function sendChildObj(Obj){
-	Obj.innerHTML =
-		this.no +":"+ playform.title.value +":"+ playform.artist.value +":"+ playform.album.value
-		 +":"+ playform.duration.value +":"+ playform.filePath.value;
-}
 
 </script>
 </body>

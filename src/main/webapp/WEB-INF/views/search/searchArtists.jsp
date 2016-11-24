@@ -3,40 +3,38 @@
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <% request.setCharacterEncoding("utf-8"); %>
 <script>
-document.title="${searchText}"+"- 아티스트검색";
-$(document).ready(function(){
-
-});
+document.title="${searchTxt}"+"- 아티스트검색";
 </script>
 <body>
 <div id="header-area">
 	<div class="container">
-	<h3><a href="localhost:8515">Music Box</a></h3>
+	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
 	<form id="afterSearch" role="form" method="get" action="searchMain">
-	<input type="text" value="${searchText}" name="query" />
-	<input type="submit" value="검색" />
+		<input type="text" value="${searchTxt}" name="query" required/>
+		<input type="submit" value="검색" />
 	</form>
 	</div>
 </div><!-- .header-area END -->
 
 <div class="container">
-	<!-- <span class="resultText">검색결과</span> -->
-	<p class="resultInfo"><span>'${searchText}'</span>에 대한 검색결과입니다.</p>
-	
-<!-- <nav class="resultSearch">
-		<span>통합검색</span>	<span>아티스트</span>	<span>곡</span>	<span>앨범</span>
-	</nav> -->
+	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
 	<p class="artistName">아티스트<span> (${artistNum}) </span></p>
 	<div id="section" class="aritstBox">
+	
 		<c:forEach items="${artistList}" var="artistVO">
-			<div class="box">${artistVO.artist}</div>
+			<div class="box">
+				<div class="box-title">
+					${artistVO.artist}
+				</div>
+			</div>
 		</c:forEach>
+		
 		<div class="clearBoth"></div>
-	</div>
-	</div>
-</div> <!-- .container END -->
+	</div> <!-- .artistBox END -->
+	</div><!-- .result END -->
+</div><!-- .container END -->
 
 <script>
 var resultNumber = ${artistNum};

@@ -60,26 +60,36 @@ public class SearchController {
 		}	
 	}
 	
-	/*@RequestMapping(value="/searchMain", method=RequestMethod.POST)
-	public void searchMainPost(@RequestParam("title") String title,
-			@RequestParam("artist") String artist,
-			@RequestParam("album") String album,
-			@RequestParam("duration") String duration,
-			@RequestParam("filePath") String filepath) throws Exception {
-	}
-	*/
 	@RequestMapping(value="/searchArtists", method=RequestMethod.GET)
 	public void searchArtists(@RequestParam("query") String searchTxt, Model model) throws Exception {
 		log.info("searchArtist Controller .... ");
+		
+		List<ArtistVO> artistVO = service.searchArtist(searchTxt);
+		
+		model.addAttribute("artistList", artistVO);
+		model.addAttribute("artistNum", artistVO.size());
+		model.addAttribute("searchTxt", searchTxt);
 	}
 	
 	@RequestMapping(value="/searchSongs", method=RequestMethod.GET)
-	public void searchSongs(@RequestParam("query") String searchTxt) throws Exception {
+	public void searchSongs(@RequestParam("query") String searchTxt, Model model) throws Exception {
 		log.info("searchSongs Controller .... ");
+		
+		List<SongVO> songVO = service.searchSong(searchTxt);
+		
+		model.addAttribute("songList", songVO);
+		model.addAttribute("songNum", songVO.size());
+		model.addAttribute("searchTxt", searchTxt);
 	}
 	
 	@RequestMapping(value="/searchAlbums", method=RequestMethod.GET)
-	public void searchAlbums(@RequestParam("query") String searchTxt) throws Exception {
+	public void searchAlbums(@RequestParam("query") String searchTxt, Model model) throws Exception {
 		log.info("searchAlbums controller .... ");
+		
+		List<AlbumVO> albumVO = service.searchAlbum(searchTxt);
+		
+		model.addAttribute("albumList", albumVO);
+		model.addAttribute("albumNum", albumVO.size());
+		model.addAttribute("searchTxt", searchTxt);
 	}
 }

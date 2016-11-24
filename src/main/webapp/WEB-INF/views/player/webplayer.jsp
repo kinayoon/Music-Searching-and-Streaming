@@ -8,52 +8,17 @@
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
 <link href="<c:url value="/resources/css/webPlayer.css"/>" rel="stylesheet">
 <title>Music Player</title>
-<script>
-$(document).ready(function(){
-	
-	//parsing data from parent window(searchMain.jsp)
-	opener.sendChildObj(document.all.songData);
-	opener.toPopup = this;
-	
-	function call(arr,url){
-		console.log(arr);
-		console.log(url);
-	}
-	
-	function dynamicList(){
-		arr = $('#songData').text().split(':');
-		
-		var date = new Date(parseInt(arr[4]));
-		var mm = date.getMinutes();
-		var ss = date.getSeconds();
-		
-		//add songTitle
-		//show song's title --> 곡이 다음곡으로 넘어가면서 title도 다음곡으로 넘어가줘야함.
-		var headerTitle = $(".playnow-title");
-		headerTitle.text(arr[1]);
-		
-		//add songList
-		var list = $('.songlist').find('tbody');
-		var listNo = "<tr><td class='no'>" + arr[0] + "</td>";
-		var listTitle = "<td class='title'>" + arr[1] + "</td>";
-		var listArtist = "<td class='artist'>" + arr[2] + "</td>";
-		var listAlbum = "<td class='album'>" + arr[3] + "</td>";
-		var listDuration = "<td class='duration'>" + mm + ":" + ss + "</td></tr>"; 
-		list.append(listNo).append(listTitle).append(listArtist).append(listAlbum).append(listDuration);
-	}	
-	dynamicList();
-});
-
-</script>
 </head>
 <body>
-	<p id="songData"></p> 
-	<p id="getAudioSrc"></p>
+	<p id="getAudioSrc"></p>	
 		
 	<div class="play-area">
 		<div class="playnow-title"></div>
-		<audio id="myAudio" src="<c:url value='${audiosrc}'/>" controls="controls" autoplay></audio>
-		<input type="checkbox" name="loopcheck">반복재생</input>
+		<audio id="myAudio" controls="controls" preload="auto" autoplay></audio>
+		<button id="playBtn" onclick="javascript:playSong();">play</button>
+		<button id="stopBtn" onclick="javascript:stopSong();">stop</button>
+		<button id="prevBtn" onclick="javascript:prevSong();">prev</button>
+		<button id="nextBtn" onclick="javascript:nextSong();">next</button>
 	</div><!-- .play-area END -->
 	
 	<div class="play-list">
@@ -65,29 +30,103 @@ $(document).ready(function(){
 					<th class="th_song">아티스트</th>
 					<th class="th_song">앨범</th>
 					<th class="th_duration">시간</th>
-					<th class="th_playsong">듣기</th>
 				</tr>
 			</thead>
 			<tbody>
-				<!-- 동적으로 재생리스트 올라가는 영역 -->
+				<!-- Dynamic List -->
 			</tbody>
 		</table>
 	</div> <!-- .play-list END -->
 </body>
+
 <script>
-function playAudio(){
-	var audio = $("#myAudio");
-	var beforefileValue = new Array();
-		
-	//	audio.val();  //기존에 들어왔던 src값 
-	var afterfileValue= "";  //나중에 추가된 src값 
-	var currentfileValue="";
+var headerTitle = $(".playnow-title");
+var audio = $("#myAudio");
+
+$(document).ready(function(){
+	//parsing data from parent window(searchMain.jsp)
+	alldata = window.opener.dataforPrint;
+	parsingSongData(alldata);
 	
-	$("input[name='loopcheck']").click(function(){
-		if( $(this).is(':checked')){
-			audio.loop = true;
-		}
-	});
-} playAudio();
+	audio.on('ended', function(){
+		$("#nextBtn").trigger('click');	
+	});	
+});
+
+function parsingSongData(alldata){
+	
+	srcData = new Array();  
+	titleData = new Array();
+	
+	for(var i=0; i<alldata.length; i++){
+		var no = i+1;
+		var title = alldata[i].title;
+		var artist = alldata[i].artist;
+		var album = alldata[i].album;
+		var date = new Date(parseInt(alldata[i].duration));
+		var mm = date.getMinutes();
+		var ss = date.getSeconds();			
+		var audiosrc = alldata[i].audioSrc;
+		
+		dynamicList(no, title, artist, album, mm, ss, audiosrc);
+		srcData.push(audiosrc);
+		titleData.push(title);
+	}
+	index = 0;
+	playSong();
+}	
+
+function dynamicList(num, title, artist, album, mm, ss, audiosrc){
+	var list = $('.songlist tbody');
+	var listNo = "<tr><td class='no'>" + num + "</td>";
+	var listTitle = "<td class='title'><a href='javascript:playnow(" + num + ");'>" + title + "</a></td>";
+	var listArtist = "<td class='artist'>" + artist + "</td>";
+	var listAlbum = "<td class='album'>" + album + "</td>";
+	var listDuration = "<td class='duration'>" + mm + ":" + ss + "</td></tr>";
+	list.append(listNo).append(listTitle).append(listArtist).append(listAlbum).append(listDuration);	
+}
+
+function playSong(){
+	index = 0;
+	audio.attr('src', srcData[index]);		
+	headerTitle.html(titleData[index]);
+}
+
+function stopSong(){
+	index = 0;
+	audio.attr('src',"");
+	audio.load();
+}
+
+function playnow(no){
+	index = no-1;
+	audio.attr('src',srcData[index]);
+	headerTitle.html(titleData[index]);
+}
+
+function nextSong(){
+	if(index == srcData.length-1){
+		index = 0;
+		audio.attr('src', srcData[index]);
+		headerTitle.html(titleData[index]);
+	}else{
+		index++;
+		audio.attr('src', srcData[index]);
+		headerTitle.html(titleData[index]);
+	}
+}
+
+function prevSong(){
+	if(index == 0){
+		index = srcData.length-1;
+		audio.attr('src', srcData[index]);
+		headerTitle.html(titleData[index]);
+	}else{
+		index--;
+		audio.attr('src', srcData[index]);
+		headerTitle.html(titleData[index]);
+	}
+}
+
 </script>
 </html>
