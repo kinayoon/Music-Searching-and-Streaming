@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kr.kina.mappers.DetailMapper">
+
+<select id="detailArtist" parameterType="String" resultType="kr.kina.domain.SongVO">
+	select
+	@rownum:=@rownum+1 as rownum, a.*
+	from
+	(
+		select
+		title, duration, album, tracknum, artist, filepath
+		from song
+		where artist=#{artist}
+	)a,
+	(select @rownum:=0) R
+</select>
+
+
+<select id="detailAlbum" parameterType="int" resultType="kr.kina.domain.SongVO">
+	select
+	title, duration, tracknum, artist, filepath
+	from song
+	where albumid=#{id}
+</select>
+
+</mapper>

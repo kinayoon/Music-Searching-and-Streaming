@@ -27,17 +27,17 @@
 		select title, artist, album, duration, tracknum, filepath
 		from song
 		where title 
-		like CONCAT('%', #{queryText}, '%')
+		like CONCAT('%', #{queryText}, '%') 
 	)b,
 	(select @rownum:=0) R	 
 </select>
 
 <select id="searchAlbum" parameterType="String" resultType="kr.kina.domain.AlbumVO">
 	select
-	album, artist, genre, releasedate
+	album, artist, genre, releasedate, albumid
 	from album
 	where album 
-	like CONCAT('%', #{queryText}, '%')
+	like CONCAT('%', #{queryText}, '%') 
 </select>
 
 </mapper>

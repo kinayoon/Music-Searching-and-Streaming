@@ -8,7 +8,7 @@ public class SongVO {
 	String title;  //filename
 	String artist;
 	double duration;  // mils -> sec으로 계산.
-	String trackNum;
+	String tracknum;
 	String releaseDate;
 	String filePath;
 	
@@ -64,11 +64,11 @@ public class SongVO {
 	}
 
 	public String getTrackNum() {
-		return trackNum;
+		return tracknum;
 	}
 
-	public void setTrackNum(String trackNum) {
-		this.trackNum = trackNum;
+	public void setTrackNum(String tracknum) {
+		this.tracknum = tracknum;
 	}
 
 	public String getReleaseDate() {

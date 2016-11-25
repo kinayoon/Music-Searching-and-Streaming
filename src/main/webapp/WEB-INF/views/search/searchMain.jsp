@@ -21,9 +21,10 @@ document.title="${searchText}"+"- 통합검색";
 <div class="container">
 	<p class="resultInfo"><span>'${searchText}'</span>에 대한 검색결과입니다.</p>
 	
-	<div id="result">
+<div id="result">
 	<p class="artistName">아티스트<span> (${artistNum}) </span></p>
 	<div id="section" class="aritstBox">
+		
 		<% 
 				int a_num = (Integer) request.getAttribute("artistNum");
 				if( a_num != 0 || a_num < 9 ){  // num : 1 ~ 8
@@ -33,12 +34,15 @@ document.title="${searchText}"+"- 통합검색";
 					request.setAttribute("moreArtistList", "7");
 				}
 		%>
+		
 		<c:forEach items="${artistList}" var="artistVO" begin="0" end="${moreArtistList}">
+			<a href="/detail/artist?artist=${artistVO.artist}">
 			<div class="box">
 				<div class="box-title">
 					${artistVO.artist}
 				</div>
 			</div>
+			</a>
 		</c:forEach>
 		
 		<div class="clearBoth"></div>
@@ -50,9 +54,9 @@ document.title="${searchText}"+"- 통합검색";
 		</div>
 	<% } %>	
 	
-	</div><!-- .result END -->
+</div><!-- .result END -->
 
-	<div id="result">
+<div id="result">
 	<p class="songName">곡 <span> (${songNum}) </span></p>
 	<div id="section" class="songBox">
 		<table>
@@ -68,6 +72,7 @@ document.title="${searchText}"+"- 통합검색";
 				</tr>
 			</thead>
 			<tbody>
+			
 			<% 
 				int num = (Integer) request.getAttribute("songNum");
 				if( num != 0 || num < 16 ){  // num : 1 ~ 15
@@ -114,11 +119,12 @@ document.title="${searchText}"+"- 통합검색";
 			</div>
 	<% } %>
 		
-	</div><!-- .result END -->
+</div><!-- .result END -->
 		
-	<div id="result">
+<div id="result">
 		<p class="albumName">앨범<span> (${albumNum}) </span></p>
 		<div id="section" class="albumBox">
+		
 		<% 
 				int al_num = (Integer) request.getAttribute("albumNum");
 				if( al_num != 0 || al_num < 9 ){  // num : 1 ~ 8
@@ -128,43 +134,62 @@ document.title="${searchText}"+"- 통합검색";
 					request.setAttribute("moreAlbumList", "7");
 				}
 		%>
+		
 			<c:forEach items="${albumList}" var="albumVO" begin="0" end="${moreAlbumList}"> 
 			<div class="box">
 				<div class="inner-box">
-					<div class="album">${albumVO.album}</div>
-					<div class="artist">아티스트 : ${albumVO.artist}</div>
-					<div class="genre">장르 : ${albumVO.genre}</div>
-					<div class="release_date">발매일 : ${albumVO.releaseDate}</div>
+					<a href="/detail/album?id=${albumVO.albumid}">
+						<div class="album">${albumVO.album}</div>
+						<div class="artist">아티스트 : ${albumVO.artist}</div>
+						<div class="genre">장르 : ${albumVO.genre}</div>
+						<div class="release_date">발매일 : ${albumVO.releaseDate}</div>
+					</a>
 				</div>
-			</div>
+			</div><!-- .box END -->
+				<form name="toAlbumPage">
+					<input type="hidden" name="album" value="${albumVO.album}"  />
+					<input type="hidden" name="artist" value="${albumVO.artist}"  />
+					<input type="hidden" name="genre" value="${albumVO.genre}"  />
+					<input type="hidden" name="release_date" value="${albumVO.releaseDate}"  />
+				</form>
 			</c:forEach>
 			
 		</div><!-- .albumBox END -->
 	
-	<% if( al_num > 15 ){ %> 
+	    <% if( al_num > 15 ){ %> 
 			<div class="moreview">
 				<a href="/search/searchAlbums?query=${searchText}">앨범 결과 더보기</a>
 			</div>
-	<% } %>
-		
-	</div><!-- .result END -->
+    	<% } %>
+ 		
+</div><!-- .result END -->
 </div><!-- .container END -->
 
 
-
 <script>
-/* var resultQuery = $('#afterSearch').find('input[type=text]').val();
-    if (resultQuery == null){
-	  alert("검색어를 입력해주세요");
-   } 
-*/
+
 //Global Var
 var popupPlayer;  //플레이어 팝업
 var playform;  //한곡 데이터
 var dataforPrint;  //플레이어 팝업에 뿌려줄 총 데이터
 doc = document;  //한번만 window객체 불러오게끔.
 
-//전체 체크 리스너
+//Checked Album, move detail page
+/*$(".albumBox .inner-box").find('a').click(function(event){
+	event.preventDefault();
+	var topage= doc.toAlbumPage 
+		
+		$("form[name='toAlbumPage']");
+	
+	
+	topage.method('post');
+	topage.url();
+	topage.submit(); 
+	console.log(topage.title.value);
+	console.log(topage.value);
+});*/
+
+//CheckBox total check
 $("#totalListCheck").click(function(){
 	if($("#totalListCheck").prop("checked")){
 		$("input[name='addsong']").prop("checked", true);
