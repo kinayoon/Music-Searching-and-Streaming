@@ -1,7 +1,5 @@
 package kr.kina.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,18 +8,15 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.kina.domain.AudioUrlVO;
-import kr.kina.domain.StreamingVO;
 import kr.kina.service.CounterService;
+import kr.kina.service.URLMaker;
 
 @Controller
 @RequestMapping("/player")
@@ -32,6 +27,8 @@ public class PlayerController {
 	@Inject
 	CounterService service;	
 	
+	@Inject
+	URLMaker url;
 	
 	/** audioURL만들어주는 컨트롤러
 	 * 	@return audioURL포함한 뿌려줄 전체데이터 
@@ -43,16 +40,12 @@ public class PlayerController {
 		List<Map<String,String>> returnData = songData;
 		
 		if( returnData.size() == 1){  //한 곡 재생x
-			String oneSrc = returnData.get(0).get("filePath").substring(13).replace('\\', '/' );
-			oneSrc = "/songs" + oneSrc;
-			returnData.get(0).put("audioSrc", oneSrc);
-			System.out.println(oneSrc);
+			returnData.get(0).put("audioSrc", url.urlMaker(returnData.get(0).get("filePath")));
 			returnData.get(0).remove("filePath");
 		}
 		if( returnData.size() > 1 ){  //전곡 재생
 			for(Map<String,String> song : returnData){
-				String src = song.get("filePath").substring(13).replace('\\','/');
-				src = "/songs" + src;
+				String src = url.urlMaker(song.get("filePath"));
 				song.put("audioSrc", src);
 				song.remove("filePath");
 			}

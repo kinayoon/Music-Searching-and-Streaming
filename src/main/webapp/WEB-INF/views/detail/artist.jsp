@@ -9,8 +9,8 @@ document.title="${artistTxt}"+"- 아티스트 검색";
 <div id="header-area">
 	<div class="container">
 	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
-	<form id="afterSearch" role="form" method="get" action="searchMain">
-		<input type="text" value="${artistTxt}" name="query" required/>
+	<form id="ArtistSearch" role="form" method="get" action="artist">
+		<input type="text" value="${artistTxt}" name="artist" required/>
 		<input type="submit" value="검색" />
 	</form>
 	</div>
@@ -21,7 +21,7 @@ document.title="${artistTxt}"+"- 아티스트 검색";
 	
 <div id="result">
 	<p class="artistName">아티스트<span> ${artistTxt}</span> 의 곡 ${resultArtistSize}</p>
-	<div id="section" class="aritstBox">
+	<div id="section" class="songBox">
 		
 		<table>
 			<thead>
@@ -72,10 +72,5 @@ document.title="${artistTxt}"+"- 아티스트 검색";
 	</div> <!-- .artistBox END -->
 </div><!-- .result END -->
 </div><!-- .container END -->
-
-<script>
-
-</script>
-
 </body>
 </html>

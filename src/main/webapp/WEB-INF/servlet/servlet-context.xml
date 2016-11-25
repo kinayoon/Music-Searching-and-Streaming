@@ -11,7 +11,6 @@
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 <mvc:annotation-driven />
-
 <mvc:resources mapping="/resources/**" location="/resources/" />
 <mvc:resources mapping="/songs/**" location="file:///d:/genie data/" />
 
@@ -28,17 +27,6 @@
 </mvc:interceptors>
 
 <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-
-<!-- threadPool 
-<bean class="org.springframework.scheduling.concurrent.ConcurrentTaskExecutor" id="taskExecutor" >
-	<property name="corePoolSize" value="10" />
-	<property name="maxPoolSize" value="25" />
-	<property name="queueCapacity" value="30" />
-</bean>
-
-<bean id="TaskExecutor" class="TaskExecutor">
-	<constructor-arg ref="TaskExecutor" />
-</bean> -->
 
 <context:component-scan base-package="kr.kina.controller, kr.kina.interceptor" />
 </beans>

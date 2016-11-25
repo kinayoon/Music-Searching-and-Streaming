@@ -13,7 +13,8 @@
 		select
 		title, duration, album, tracknum, artist, filepath
 		from song
-		where artist=#{artist}
+		where artist
+		like CONCAT ('%', #{artist}, '%')
 	)a,
 	(select @rownum:=0) R
 </select>
@@ -21,9 +22,15 @@
 
 <select id="detailAlbum" parameterType="int" resultType="kr.kina.domain.SongVO">
 	select
-	title, duration, tracknum, artist, filepath
-	from song
-	where albumid=#{id}
+	@rownum:=@rownum+1 as rownum, a.*
+	from
+	(
+		select
+		title, duration, album, tracknum, artist, filepath
+		from song
+		where albumid=#{id}
+	)a,
+	(select @rownum:=0) R
 </select>
 
 </mapper>

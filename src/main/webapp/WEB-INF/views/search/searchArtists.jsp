@@ -24,11 +24,13 @@ document.title="${searchTxt}"+"- 아티스트검색";
 	<div id="section" class="aritstBox">
 	
 		<c:forEach items="${artistList}" var="artistVO">
+		<a href="/detail/artist?artist=${artistVO.artist}">
 			<div class="box">
 				<div class="box-title">
 					${artistVO.artist}
 				</div>
 			</div>
+		</a>
 		</c:forEach>
 		
 		<div class="clearBoth"></div>

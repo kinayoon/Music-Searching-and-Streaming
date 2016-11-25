@@ -24,12 +24,14 @@ document.title="${searchTxt}"+"- 앨범검색";
 		<div id="section" class="albumBox">
 			<c:forEach items="${albumList}" var="albumVO"> 
 			<div class="box">
+			<a href="/detail/album?id=${albumVO.albumid}">
 				<div class="inner-box">
 					<div class="album">${albumVO.album}</div>
 					<div class="artist">아티스트 : ${albumVO.artist}</div>
 					<div class="genre">장르 : ${albumVO.genre}</div>
 					<div class="release_date">발매일 : ${albumVO.releaseDate}</div>
 				</div>
+			</a>	
 			</div>
 			</c:forEach>
 			

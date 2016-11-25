@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.kina.domain.SongVO;
 import kr.kina.service.DetailService;
+import kr.kina.service.URLMaker;
 
 @Controller
 @RequestMapping("/detail")
@@ -25,6 +26,8 @@ public class DetailController {
 	@Inject
 	DetailService service;
 	
+	@Inject
+	URLMaker url;
 	
 	@RequestMapping(value="/artist", method=RequestMethod.GET)
 	public void resultArtist(@RequestParam("artist") String artist, Model model) throws Exception {
@@ -32,16 +35,9 @@ public class DetailController {
 		
 		List<SongVO> songVO = service.artistPage(artist);  //title, duration, album, tracknum, artist, filepath--> url
 		int size = songVO.size();	
-		if(size >= 1){
-			for(SongVO vo : songVO){
-				String url = vo.getFilePath().substring(13).replace('\\', '/');
-				url = "/songs" + url;
-				vo.setFilePath(url);
-				model.addAttribute("resultArtistSize", size);	
-			}		
-		}else{
-			model.addAttribute("resultArtistSize", "이 없습니다.");
-		}
+		
+		if(size >= 1)	model.addAttribute("resultArtistSize", size);	
+		else            model.addAttribute("resultArtistSize", "이 없습니다.");
 		
 		model.addAttribute("SongByArtist", songVO);
 		model.addAttribute("artistTxt", artist);
@@ -49,10 +45,19 @@ public class DetailController {
 	
 	
 	@RequestMapping(value="/album", method=RequestMethod.GET)
-	public void resultAlbum(@RequestParam("id") String id ) throws Exception {
+	public void resultAlbum(@RequestParam("id") String id, Model model) throws Exception {
 		log.debug("Album Detail Controller .... ");
-
 		
+		List<SongVO> songVO = service.albumPage(id);
+		int size = songVO.size();
+		
+		if(size >= 1)	model.addAttribute("resultAlbumSize", size);	
+		else            model.addAttribute("resultAlbumSize", "이 없습니다.");	
+		
+		model.addAttribute("SongByAlbum", songVO);
+		model.addAttribute("albumTxt", id);
+		model.addAttribute("albumTitle", songVO.get(0).getAlbum());
+		model.addAttribute("albumArtist", songVO.get(0).getArtist());
 	}
 		
 

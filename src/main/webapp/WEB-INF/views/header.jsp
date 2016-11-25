@@ -11,6 +11,10 @@
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	
+	<!-- javascript for playing -->
+	<script src="<c:url value="/resources/js/playing.js"/>" type="text/javascript"></script>
+    
     <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -37,5 +41,5 @@
   	 			});
  			}
  		});
-	</script>
+	</script> 
 </head>

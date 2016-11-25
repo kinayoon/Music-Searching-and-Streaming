@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <% request.setCharacterEncoding("utf-8"); %>
-
 <script>
 document.title="${searchText}"+"- 통합검색";
 </script>
@@ -48,7 +47,7 @@ document.title="${searchText}"+"- 통합검색";
 		<div class="clearBoth"></div>
 	</div> <!-- .artistBox END -->
 	
-	<% if( a_num > 15 ){ %>
+	<% if( a_num > 8 ){ %>
 		<div class="moreview">
 			<a href="/search/searchArtists?query=${searchText}">아티스트 결과 더보기</a>
 		</div>
@@ -136,16 +135,16 @@ document.title="${searchText}"+"- 통합검색";
 		%>
 		
 			<c:forEach items="${albumList}" var="albumVO" begin="0" end="${moreAlbumList}"> 
+			<a href="/detail/album?id=${albumVO.albumid}">
 			<div class="box">
 				<div class="inner-box">
-					<a href="/detail/album?id=${albumVO.albumid}">
 						<div class="album">${albumVO.album}</div>
 						<div class="artist">아티스트 : ${albumVO.artist}</div>
 						<div class="genre">장르 : ${albumVO.genre}</div>
 						<div class="release_date">발매일 : ${albumVO.releaseDate}</div>
-					</a>
-				</div>
+				</div>	
 			</div><!-- .box END -->
+			</a>
 				<form name="toAlbumPage">
 					<input type="hidden" name="album" value="${albumVO.album}"  />
 					<input type="hidden" name="artist" value="${albumVO.artist}"  />
@@ -156,7 +155,7 @@ document.title="${searchText}"+"- 통합검색";
 			
 		</div><!-- .albumBox END -->
 	
-	    <% if( al_num > 15 ){ %> 
+	    <% if( al_num > 8 ){ %> 
 			<div class="moreview">
 				<a href="/search/searchAlbums?query=${searchText}">앨범 결과 더보기</a>
 			</div>
@@ -173,21 +172,7 @@ var popupPlayer;  //플레이어 팝업
 var playform;  //한곡 데이터
 var dataforPrint;  //플레이어 팝업에 뿌려줄 총 데이터
 doc = document;  //한번만 window객체 불러오게끔.
-
-//Checked Album, move detail page
-/*$(".albumBox .inner-box").find('a').click(function(event){
-	event.preventDefault();
-	var topage= doc.toAlbumPage 
-		
-		$("form[name='toAlbumPage']");
-	
-	
-	topage.method('post');
-	topage.url();
-	topage.submit(); 
-	console.log(topage.title.value);
-	console.log(topage.value);
-});*/
+var total = doc.paramValue;  // All total Data
 
 //CheckBox total check
 $("#totalListCheck").click(function(){
@@ -198,7 +183,7 @@ $("#totalListCheck").click(function(){
 	}
 });
 
-//Add Song 
+//Add Song when checkBox clicked
 function checkedSong(){
 	var check = $("input[name='addsong']:checked");
 
@@ -216,40 +201,59 @@ function checkedSong(){
 			numArr[0] = check.val();
 		}
 	}
-	return parseInt(numArr);
+	return numArr;
 }
 
 //Create Selected Song Data
 function playAdd(){
-	var arr = checkedSong();
-	console.log(arr);
+	var arr = checkedSong();	
 	var addSongArr = new Array();  //total selected data
-	var eachForm = doc.paramvalue;
-	
-	console.log(eachForm); //undefined
 	
 	for(var i=0; i<arr.length; i++){
+		var idx = arr[i];
+		idx = parseInt(idx);
+		var checked = total[idx-1];
 		var Obj = {
-	//			eachForm[(arr[i]-1)];
+			"title" : checked.title.value, 
+			"artist" : checked.artist.value,
+			"album" : checked.album.value,
+			"duration" : checked.duration.value,
+			"filePath" : checked.filePath.value
 		};
-	}	
+		addSongArr.push(Obj);
+	}
+	//이제 이 데이터를 playing으로 보내서.. url를 따고.. url를 딴 것을 webplayer로 넘겨서 arr배열에 추가시키면 된다.
 }
 
 //Play One (1)
 function playnow(no){
 	this.no = no;
-	playform = doc.paramValue[no-1];
-	console.log(playform);
-	var oneObj = {
-			"title" : playform.title.value,
-			"artist" : playform.artist.value,
-			"album" : playform.album.value,
-			"duration" : playform.duration.value,
-			"filePath" : playform.filePath.value
-	};
 	var oneArr = new Array();
-	oneArr.push(oneObj);
+	
+	//곡이 1곡만 들어왔음.
+	var num = $(".songName").find("span").text();
+	num = num.replace("(","").replace(")","");   // (1)		
+	
+	if( num == 1 ){
+		var song = songWrapper(total);
+		oneArr.push(song);
+	}else if( num != 1){
+		playform = total[no-1];
+		var song = songWrapper(playform);
+		oneArr.push(song);
+	}	
 	playing(oneArr); 
+}
+
+function songWrapper(form){
+	var oneObj = {
+			"title" : form.title.value,
+			"artist" : form.artist.value,
+			"album" : form.album.value,
+			"duration" : form.duration.value,
+			"filePath" : form.filePath.value
+	};
+	return oneObj;
 }
 		
 //Play All (15)
@@ -293,7 +297,7 @@ function playing(data){
 //formElement --> Array
 function allDataConverter(){
 	var allArr = new Array();
-	var allforms = doc.paramValue;
+	var allforms = total;
 	for(var i=0; i<allforms.length; i++){
 		var dataObj = {
 				"title" : allforms[i].title.value,
@@ -306,7 +310,6 @@ function allDataConverter(){
 	}
 	return allArr;
 }	
-
 </script>
 </body>
 </html>
