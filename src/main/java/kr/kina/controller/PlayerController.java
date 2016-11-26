@@ -1,13 +1,16 @@
 package kr.kina.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,52 +33,50 @@ public class PlayerController {
 	@Inject
 	URLMaker url;
 	
-	/** audioURL만들어주는 컨트롤러
-	 * 	@return audioURL포함한 뿌려줄 전체데이터 
+	/** make audioURL 
+	 * 	@return List<> all data include audioURL 
 	 * */
-	@RequestMapping(value="/webplayer", method=RequestMethod.POST, consumes="application/json; charset=UTF-8")
-	public @ResponseBody List<Map<String,String>> getSongDataPOST(@RequestBody List<Map<String,String>> songData) throws Exception {
-		log.info("Return audioURL for play song ...");
+	@RequestMapping(value="/playList", method=RequestMethod.POST, consumes="application/json; charset=UTF-8")
+	public @ResponseBody List<Map<String,String>> playListPOST(@RequestBody List<Map<String,String>> songData) throws Exception {
+		log.debug("playList : One or All");
 		
-		List<Map<String,String>> returnData = songData;
-		
-		if( returnData.size() == 1){  //한 곡 재생x
-			returnData.get(0).put("audioSrc", url.urlMaker(returnData.get(0).get("filePath")));
-			returnData.get(0).remove("filePath");
+		for(Map<String,String> song : songData){		
+			song.put("audioSrc", url.urlMaker(song.get("filePath")));
+			song.remove("filePath");
 		}
-		if( returnData.size() > 1 ){  //전곡 재생
-			for(Map<String,String> song : returnData){
-				String src = url.urlMaker(song.get("filePath"));
-				song.put("audioSrc", src);
-				song.remove("filePath");
+		return songData;
+	}
+	
+	/** make audioURL 
+	 *  @resutn List<> added data & newer add data
+	 * */
+	@RequestMapping(value="/addList", method=RequestMethod.POST, consumes="application/json; charset=UTF-8")
+	public void addListPOST(@RequestBody List<Map<String,String>> beforeData,
+							@RequestBody List<Map<String,String>> addData, Model model) throws Exception {
+		log.debug("addList ..");
+	
+		List<Map<String,String>> result = new ArrayList<>();
+		
+		if(beforeData.size() > 0){
+			for(Map<String,String> data : beforeData){
+				result.add(data);
 			}
 		}
-		return returnData;
+		if(addData.size() > 0){
+			for(Map<String,String> data : addData){
+				result.add(data);
+			}
+		}
+		model.addAttribute("addData", result);	
 	}
+	
 	
 	/**
 	 * popup player
 	 * */
 	@RequestMapping(value="/webplayer", method=RequestMethod.GET)
 	public void popupWinGET()throws Exception {
-		log.debug("webplayer Popup ..");
+		log.info("webplayer Popup ..");
 	}	
-		
-	
-	/** addSong : 한 곡 담기
-	 *  @return audisrc
-	 * */
-	@RequestMapping(value="/add", method=RequestMethod.POST, consumes="application/json; charset=UTF-8")
-	@ResponseBody
-	public String addSongPOST(@RequestBody Map<String,String> path) throws Exception {
-		log.info("Add song");
-		
-		String addsongURL = path.get("filePath");
-		addsongURL = addsongURL.substring(13).replace('\\', '/');
-		addsongURL = "/songs" + addsongURL;
-	
-		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(addsongURL);
-	}
-	
 }
+

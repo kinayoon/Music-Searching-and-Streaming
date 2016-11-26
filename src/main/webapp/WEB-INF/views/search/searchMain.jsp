@@ -94,10 +94,10 @@ document.title="${searchText}"+"- 통합검색";
 						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
 						
 							<form name ="paramValue">				
-							<input type="hidden" name="title" value="${songVO.title}"/>
-							<input type="hidden" name="artist" value="${songVO.artist}"/>
+							<input type="hidden" name="title" value="${songVO.title}" />
+							<input type="hidden" name="artist" value="${songVO.artist}" />
 							<input type="hidden" name="album" value="${songVO.album}" />
-							<input type="hidden" name="duration" value="${songVO.duration}"/>
+							<input type="hidden" name="duration" value="${songVO.duration}" />
 							<input type="hidden" name="filePath" value="${songVO.filePath}" />
 							</form>
 							
@@ -163,153 +163,5 @@ document.title="${searchText}"+"- 통합검색";
  		
 </div><!-- .result END -->
 </div><!-- .container END -->
-
-
-<script>
-
-//Global Var
-var popupPlayer;  //플레이어 팝업
-var playform;  //한곡 데이터
-var dataforPrint;  //플레이어 팝업에 뿌려줄 총 데이터
-doc = document;  //한번만 window객체 불러오게끔.
-var total = doc.paramValue;  // All total Data
-
-//CheckBox total check
-$("#totalListCheck").click(function(){
-	if($("#totalListCheck").prop("checked")){
-		$("input[name='addsong']").prop("checked", true);
-	}else{
-		$("input[name='addsong']").prop("checked", false);
-	}
-});
-
-//Add Song when checkBox clicked
-function checkedSong(){
-	var check = $("input[name='addsong']:checked");
-
-	if(	$("input[name='addsong']").is(":checked") ){
-		var len = check.length;
-		var numArr = new Array();
-		var i = 0;
-		
-		if(len > 1){
-			check.each(function(index){
-				numArr[i] = $(this).val();
-				i++;
-			});
-		}else if(len == 1){
-			numArr[0] = check.val();
-		}
-	}
-	return numArr;
-}
-
-//Create Selected Song Data
-function playAdd(){
-	var arr = checkedSong();	
-	var addSongArr = new Array();  //total selected data
-	
-	for(var i=0; i<arr.length; i++){
-		var idx = arr[i];
-		idx = parseInt(idx);
-		var checked = total[idx-1];
-		var Obj = {
-			"title" : checked.title.value, 
-			"artist" : checked.artist.value,
-			"album" : checked.album.value,
-			"duration" : checked.duration.value,
-			"filePath" : checked.filePath.value
-		};
-		addSongArr.push(Obj);
-	}
-	//이제 이 데이터를 playing으로 보내서.. url를 따고.. url를 딴 것을 webplayer로 넘겨서 arr배열에 추가시키면 된다.
-}
-
-//Play One (1)
-function playnow(no){
-	this.no = no;
-	var oneArr = new Array();
-	
-	//곡이 1곡만 들어왔음.
-	var num = $(".songName").find("span").text();
-	num = num.replace("(","").replace(")","");   // (1)		
-	
-	if( num == 1 ){
-		var song = songWrapper(total);
-		oneArr.push(song);
-	}else if( num != 1){
-		playform = total[no-1];
-		var song = songWrapper(playform);
-		oneArr.push(song);
-	}	
-	playing(oneArr); 
-}
-
-function songWrapper(form){
-	var oneObj = {
-			"title" : form.title.value,
-			"artist" : form.artist.value,
-			"album" : form.album.value,
-			"duration" : form.duration.value,
-			"filePath" : form.filePath.value
-	};
-	return oneObj;
-}
-		
-//Play All (15)
-function playAllNow(){
-	if( $("#totalListCheck").prop("checked") ){ //전체 체크되어 있다면 데이터 넘길 준비 완료됨.
-		playing(allDataConverter());
-	}else {  //전체 체크가 되어있지 않다면, 전체체크해주고 데이터 넘기기
-		$("input[name='addsong']").prop("checked", true);
-		$("#totalListCheck").prop("checked", true);
-		playing(allDataConverter());
-	}
-}
-
-//popup Player & Play song
-function playing(data){
-	
-	$.ajax({
-		type : "POST",
-		url  : "/player/webplayer",  //AudioURL뽑아와서,
-		data : JSON.stringify(data),
-		success : function(urlData){ //여기서 AudioURL를 받음
-			dataforPrint = urlData; //뿌려줄 데이터 
-			
-			var option = "width=650, height=450, resizeable=no, scrollbars=yes, left=220, top=50";	
-			popupPlayer = window.open("", "Player", option);
-			
-			$.get("/player/webplayer", function(){
-				popupPlayer.location ="/player/webplayer";
-			});
-		},
-		error : function(err){
-			alert("Failed get URL Data");
-		},
-		headers : {
-			'Accept' : 'application/json; charset=UTF-8',
-			'Content-Type' : 'application/json; charset=UTF-8'
-		}
-	});
-}
-
-//formElement --> Array
-function allDataConverter(){
-	var allArr = new Array();
-	var allforms = total;
-	for(var i=0; i<allforms.length; i++){
-		var dataObj = {
-				"title" : allforms[i].title.value,
-				"artist" : allforms[i].artist.value,		
-				"album" : allforms[i].album.value,
-				"duration" : allforms[i].duration.value,
-				"filePath" : allforms[i].filePath.value
-		};
-	   allArr.push(dataObj);
-	}
-	return allArr;
-}	
-</script>
 </body>
 </html>
