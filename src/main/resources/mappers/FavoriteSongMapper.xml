@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="kr.kina.mappers.FavoriteSongMapper">
+
+<insert id="insertFavoriteSong"> 
+	insert into favoritesong
+	values
+	(#{userid}, #{album}, #{title}, #{artist}, #{duration}, #{filePath})
+</insert>
+
+<select id="searchFavoriteSong" parameterType="String" resultType="kr.kina.domain.SongVO">
+	select
+	@rownum:=@rownum+1 as rownum, b.*
+	from
+	(
+		select title, artist, album, duration, filepath
+		from favoritesong
+		where userid=#{userid} 
+	)b,
+	(select @rownum:=0) R	 
+</select>
+
+<select id="searchDuplicate" resultType="Object">
+	select * from favoritesong f, (
+		select title 
+		from favoritesong
+		where title like #{title}
+		) c
+	where userid=#{userid};
+</select>
+</mapper>

@@ -2,30 +2,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="/WEB-INF/views/header.jsp" %>
 <script>
-	document.title = '회원가입 -메인';
+	doc = document;
+	doc.title = '회원가입 -메인';
 	var msg = '${msg}';
 	if(msg == 'SUCCESS'){
 		alert("회원가입 되었습니다.");
 	}
 </script>
-<body>
-	<nav class="navbar navbar-static-top">
-		<div class="container">
-			<div class="left-container">
-				<p class="signup-title">회원가입 </p>
-			</div>
-			<div class="right-container">
-				<a href="/member/signUp">회원가입  |  </a>
-				<a href="#">아이디 찾기  |  </a>
-				<a href="#">비밀번호 찾기    </a>
-			</div>
-		</div>
-		<div class="clearBoth"></div>
-	</nav>
+<div class="container">
 	
-	<div class="container">
 	<div class="row">
 	<form role="form" method="post" id="signUp">
+		<legend>회원가입 </legend>
 		<p><label>아이디  </label><input type="text" name="id" /></p>
 		<p><label>비밀번호 </label><input type="password" name="password" /></p>
 		<p><label>이 름  </label><input type="text" name="name" /></p>

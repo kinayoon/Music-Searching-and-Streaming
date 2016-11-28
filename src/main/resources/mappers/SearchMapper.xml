@@ -6,17 +6,10 @@
 <mapper namespace="kr.kina.mappers.SearchMapper">
 
 <select id="searchArtist" parameterType="String" resultType="kr.kina.domain.ArtistVO">
-	select
-	@rownum:=@rownum+1 as rownum, a.*
-	from
-	(
-		select artist
-		from artists
-		where artist
-		like CONCAT('%', #{queryText}, '%')
-	)a,
-	(select @rownum:=0) R
-	
+	select artist
+	from artists
+	where artist
+	like CONCAT('%', #{queryText}, '%')
 </select>
 
 <select id="searchSong" parameterType="String" resultType="kr.kina.domain.SongVO">
@@ -40,4 +33,31 @@
 	like CONCAT('%', #{queryText}, '%') 
 </select>
 
+<select id="listArtist" resultType="kr.kina.domain.ArtistVO">
+	select artist
+	from artists
+	where artist like CONCAT('%', #{keyword}, '%')
+	limit #{pageStart}, #{pageNum}
+</select>
+
+<select id="listSong" resultType="kr.kina.domain.SongVO">
+	select
+	@rownum:=@rownum+1 as rownum, b.*
+	from
+	(
+		select title, artist, album, duration, tracknum, filepath
+		from song
+		where title like CONCAT('%', #{keyword}, '%')
+		limit #{pageStart}, #{pageNum}
+	)b,
+	(select @rownum:=0) R
+</select>
+
+<select id="listAlbum" resultType="kr.kina.domain.AlbumVO">
+	select 
+	album, artist, genre, releasedate, albumid
+	from album
+	where album like CONCAT('%', #{keyword}, '%')
+	limit #{pageStart}, #{pageNum}
+</select>
 </mapper>

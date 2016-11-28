@@ -1,5 +1,7 @@
 package kr.kina.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -7,12 +9,15 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.kina.domain.MemberVO;
+import kr.kina.domain.SongVO;
+import kr.kina.service.FavoriteService;
 import kr.kina.service.MemberService;
 
 @Controller
@@ -24,6 +29,9 @@ public class MemberController {
 	@Inject
 	MemberService service;
 	
+	@Inject
+	FavoriteService favoriteService;
+	
 	@RequestMapping(value="/signUp", method=RequestMethod.GET)
 	public void signUpGET() throws Exception {
 		log.info("SignUp GET ..");
@@ -34,11 +42,13 @@ public class MemberController {
 	 *   @return  String xxx.jsp
 	 */
 	@RequestMapping(value="/signUp", method=RequestMethod.POST)
-	public void signUpPOST(MemberVO member, RedirectAttributes rttr) throws Exception {
+	public String signUpPOST(MemberVO member, RedirectAttributes rttr, Model model) throws Exception {
 		log.info("SignUp POST ..");
 		service.signUp(member);
 		
 		rttr.addAttribute("msg", "SUCCESS");
+		model.addAttribute("userid", member.getId());
+		return "redirect:/";
 	}
 	
 	/**
@@ -78,18 +88,24 @@ public class MemberController {
 	 *	마이뮤직 : GET 
 	 */
 	@RequestMapping(value="/myMusic", method=RequestMethod.GET)
-	public String myMusicGET(HttpSession session, RedirectAttributes attr) throws Exception {
+	public String myMusicGET(HttpSession session, RedirectAttributes attr, Model model) throws Exception {
 		log.info("myMusic GET.. ");
 		
-		if(session.getAttribute("id") != null){
+		String userid = (String) session.getAttribute("id");
+			 
+		if(userid == null){
+			attr.addFlashAttribute("plzLogin", "myMusicFail");
 			return "redirect:/";
+		}else{  //해당 아이디로 favoriteSong table에서 데이터를 가져와서 뿌려준다. 조건1. 데이터가 없으면 없다고 뿌려주고, 조건2. 데이터가 있으면 뿌려준다.
+			List<SongVO> vo = favoriteService.searchSong(userid); 
+			if(vo.size() != 0){
+				model.addAttribute("favoriteSongList", vo);
+				model.addAttribute("favoriteSongNum", vo.size());
+			}else{
+				model.addAttribute("favoriteSongNum", 0);
+			}
+			model.addAttribute("id", userid);
 		}
-		return null;
-	}
-	
-	
-	
-
-	
-	
+		return "/member/myMusic";
+	}	
 }

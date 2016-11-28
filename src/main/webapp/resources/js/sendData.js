@@ -3,7 +3,6 @@
  *
  * */
 
-
 //Global Var
 var popupPlayer;  //popup (child window)
 totalforPrint = new Array(); //total playlist
@@ -20,6 +19,32 @@ $(document).ready(function(){
 		}
 	});
 });
+
+
+//Like it favorite song
+function likeit(no){  //해당 곡의 데이터를 
+	
+	var likeitSong = songWrapper(doc.paramValue[no-1]);
+	likeitSong.userid = sessionId;	
+
+	
+	$.ajax({
+			type : "POST",
+			url  : "/favorite/savedSong",
+			data : JSON.stringify(likeitSong),
+			success : function(result) {
+				var txt = result;
+				alert(txt);
+			},
+			error:function(request,status,error){
+		        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		      },
+			headers : {
+				'Accept' : 'application/json; charset=UTF-8',
+				'Content-Type' : 'application/json; charset=UTF-8'
+			}
+		});
+}
 
 // make song Object
 function songWrapper(form){
@@ -95,6 +120,8 @@ function playnow(no){
 		var song = songWrapper(playform);
 		oneArr.push(song);
 	}
+	afterforPrint = new Array();  //newer
+	totalforPrint = new Array(); //newer
 	returnUrl(oneArr); 
 	playing();
 }

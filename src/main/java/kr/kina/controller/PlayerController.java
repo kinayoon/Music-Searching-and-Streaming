@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import kr.kina.service.CounterService;
-import kr.kina.service.URLMaker;
+import kr.kina.service.AudioURLMaker;
 
 @Controller
 @RequestMapping("/player")
@@ -28,10 +27,7 @@ public class PlayerController {
 	static final Logger log = LoggerFactory.getLogger(PlayerController.class);
 	
 	@Inject
-	CounterService service;	
-	
-	@Inject
-	URLMaker url;
+	AudioURLMaker url;
 	
 	/** make audioURL 
 	 * 	@return List<> all data include audioURL 

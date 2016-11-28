@@ -14,20 +14,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.kina.domain.SongVO;
 import kr.kina.service.DetailService;
-import kr.kina.service.URLMaker;
+import kr.kina.service.AudioURLMaker;
 
 @Controller
 @RequestMapping("/detail")
 public class DetailController {
 
 	private static final Logger log = LoggerFactory.getLogger(DetailController.class);
-	private String namespace="kr.kina.mappers.DetailMapper";
 	
 	@Inject
 	DetailService service;
 	
 	@Inject
-	URLMaker url;
+	AudioURLMaker url;
 	
 	@RequestMapping(value="/artist", method=RequestMethod.GET)
 	public void resultArtist(@RequestParam("artist") String artist, Model model) throws Exception {

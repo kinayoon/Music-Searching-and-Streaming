@@ -5,18 +5,15 @@
 <script>
 document.title="${searchTxt}"+"- 아티스트검색";
 </script>
-<body>
-<div id="header-area">
-	<div class="container">
-	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
-	<form id="afterSearch" role="form" method="get" action="searchMain">
-		<input type="text" value="${searchTxt}" name="query" required/>
+<div class="container">
+	
+	<div class="main-search">
+	<form id="afterSearch" role="form" method="get" action="searchArtists">
+		<input type="text" value="${searchTxt}" name="keyword" required/>
 		<input type="submit" value="검색" />
 	</form>
 	</div>
-</div><!-- .header-area END -->
-
-<div class="container">
+	
 	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
@@ -37,19 +34,12 @@ document.title="${searchTxt}"+"- 아티스트검색";
 	</div> <!-- .artistBox END -->
 	</div><!-- .result END -->
 </div><!-- .container END -->
-
 <script>
-var resultNumber = ${artistNum};
-console.log("결과값 :" +resultNumber);
+var resultNumber = "${artistNum}";
 
 if (resultNumber == 0){
 	$('.artistBox').after("<p class='resultNull'>검색한 결과가 없습니다.</p>");
 }
-
-$(document).ready(function(){
-	
-});
 </script>
-
 </body>
 </html>

@@ -5,6 +5,32 @@
 	clear:both;
 }
 
+/**
+*	login page
+*/
+.floginform{
+	width: 450px;
+    margin: 0 auto;
+    height: 100%;
+    margin-top:70px;
+}
+
+.floginform label {
+	width: 100px;
+    display: block;
+}
+.floginform input[type="text"], .floginform input[type="password"]{
+	width:200px;
+	margin-bottom:10px;
+}
+
+.floginform input[type="submit"]{
+	display: block;
+    padding: 5px 75px;
+    margin-top: 10px;
+}
+
+
 
 /* SignUp Page */
 .navbar-static-top {
@@ -46,7 +72,7 @@
 */ 
 #header-area{
 	border-bottom: #efefef 2px solid;
-	padding-bottom: 15px;
+	padding-bottom: 5px;
 	margin-bottom: 20px;
 }
 
@@ -60,15 +86,19 @@
 }
 
 .loginInfo {
-	padding-top: 15px;
-    text-align: right;
+    padding-top: 23px;
+    float: right;
 }
 
 .loginInfo div a {
 	color:#888;
 }
 
-
+.main-search {
+	margin: 0 auto;
+    text-align: center;
+    padding: 8px 0px 25px 0px;
+}
 
 /*         
 *   main.jsp (main page)

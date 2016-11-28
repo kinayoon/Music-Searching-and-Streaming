@@ -5,18 +5,13 @@
 <script>
 document.title="${searchTxt}"+"- 앨범검색";
 </script>
-<body>
-<div id="header-area">
-	<div class="container">
-	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
-	<form id="afterSearch" role="form" method="get" action="searchMain">
-		<input type="text" value="${searchTxt}" name="query" required/>
+<div class="container">
+	<div class="main-search">
+	<form id="afterSearch" role="form" method="get" action="searchAlbums">
+		<input type="text" value="${searchTxt}" name="keyword" required/>
 		<input type="submit" value="검색" />
 	</form>
 	</div>
-</div><!-- .header-area END -->
-
-<div class="container">
 	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
@@ -37,20 +32,37 @@ document.title="${searchTxt}"+"- 앨범검색";
 			
 		</div><!-- .albumBox END -->	
 	</div><!-- .result END -->
+	
+	<!-- pagination -->
+<div class="text-center">
+	<ul class="pagination">	
+			
+	<c:if test="${pagination.prev}">
+		<li><a href="/search/searchAlbums${pagination.makeSearch(pagination.startPage -1)}">&laquo;</a></li>
+	</c:if>
+	
+	<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+	<li 
+		<c:out value="${pagination.cri.page == idx?'class=active':''}"/>>
+			<a href="/search/searchAlbums${pagination.makeSearch(idx)}">${idx}</a>
+	</li> 
+	</c:forEach>
+			
+	<c:if test="${pagination.next}">
+		<li><a href="/search/searchAlbums${pagination.makeSearch(pagination.endPage +1)}">&raquo;</a></li>
+	</c:if>
+	
+	</ul>
+</div><!-- .pagination -->
+
 </div><!-- .container END -->
 
 <script>
 var resultNumber = ${albumNum};
-console.log("결과값 :" +resultNumber);
 
 if (resultNumber == 0){
 	$('.albumBox').after("<p class='resultNull'>검색한 결과가 없습니다.</p>");
 }
-
-$(document).ready(function(){
-	
-});
 </script>
-
 </body>
 </html>

@@ -19,13 +19,6 @@
 	<property name="suffix" value=".jsp" /> 
 </bean>
 
-<mvc:interceptors>
-	<mvc:interceptor>
-		<mvc:mapping path="/member/myMusic"/>
-		<bean class="kr.kina.interceptor.LoginInterceptor"></bean>
-	</mvc:interceptor>
-</mvc:interceptors>
-
 <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
 
 <context:component-scan base-package="kr.kina.controller, kr.kina.interceptor" />

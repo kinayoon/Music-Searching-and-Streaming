@@ -2,12 +2,12 @@ package kr.kina.domain;
 
 public class AlbumVO {
 
-	int rownum;
-	int albumid;
-	String album;
-	String artist;
-	String genre;
-	String releaseDate;
+	private int rownum;
+	private int albumid;
+	private String album;
+	private String artist;
+	private String genre;
+	private String releaseDate;
 	
 	public AlbumVO(){}
 	

@@ -4,21 +4,18 @@
 <% request.setCharacterEncoding("utf-8"); %>
 <script>
 document.title="${searchText}"+"- 통합검색";
+sessionId = '<%= session.getAttribute("id") %>'; 
+
+
 </script>
-<body>
-<div id="header-area">
-	<div class="container">
-	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
+<div class="container">
+	<div class="main-search">
 	<form id="afterSearch" role="form" method="get" action="searchMain">
-		<input type="text" value="${searchText}" name="query" required/>
+		<input type="text" value="${searchTxt}" name="keyword" required/>
 		<input type="submit" value="검색" />
 	</form>
 	</div>
-</div><!-- .header-area END -->
-
-
-<div class="container">
-	<p class="resultInfo"><span>'${searchText}'</span>에 대한 검색결과입니다.</p>
+<p class="resultInfo"><span>'${searchText}'</span>에 대한 검색결과입니다.</p>
 	
 <div id="result">
 	<p class="artistName">아티스트<span> (${artistNum}) </span></p>
@@ -47,9 +44,9 @@ document.title="${searchText}"+"- 통합검색";
 		<div class="clearBoth"></div>
 	</div> <!-- .artistBox END -->
 	
-	<% if( a_num > 8 ){ %>
+	<%	if( a_num > 8 ){ %>
 		<div class="moreview">
-			<a href="/search/searchArtists?query=${searchText}">아티스트 결과 더보기</a>
+			<a href="/search/searchArtists?keyword=${searchText}&page=1&pageNum=16">아티스트 결과 더보기</a>
 		</div>
 	<% } %>	
 	
@@ -88,7 +85,7 @@ document.title="${searchText}"+"- 통합검색";
 						<td><div class="title">${songVO.title}</div></td>
 						<td><div class="artist">${songVO.artist}</div></td>
 						<td><div class="album">${songVO.album}</div></td>
-						<td><div class="likeit"><a href="#">좋아요</a></div></td>
+						<td><div class="likeit"><a href="javascript:likeit(${songVO.rownum});">좋아요</a></div></td>
 						<td>
 						<div class="play">
 						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
@@ -114,7 +111,7 @@ document.title="${searchText}"+"- 통합검색";
 	
 	<% if( num > 15 ){ %> 
 			<div class="moreview">
-				<a href="/search/searchSongs?query=${searchText}">곡 결과 더보기</a>
+				<a href="/search/searchSongs?keyword=${searchText}&page=1&pageNum=16">곡 결과 더보기</a>
 			</div>
 	<% } %>
 		
@@ -157,10 +154,10 @@ document.title="${searchText}"+"- 통합검색";
 	
 	    <% if( al_num > 8 ){ %> 
 			<div class="moreview">
-				<a href="/search/searchAlbums?query=${searchText}">앨범 결과 더보기</a>
+				<a href="/search/searchAlbums?keyword=${searchText}&page=1&pageNum=16">앨범 결과 더보기</a>
 			</div>
     	<% } %>
- 		
+		
 </div><!-- .result END -->
 </div><!-- .container END -->
 </body>

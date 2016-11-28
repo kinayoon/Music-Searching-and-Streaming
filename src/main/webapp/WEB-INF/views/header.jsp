@@ -6,14 +6,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Genie WebProject</title>
+    <title>Music Streaming Site</title>
     <!-- 부트스트랩 -->
     <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet">
-
 	<script src="<c:url value="/resources/js/jquery-3.1.1.min.js"/>"  type="text/javascript"></script>
-	<script src="<c:url value="/resources/js/sendData.js"/>" type="text/javascript"></script>
-    
+    <script src="<c:url value="/resources/js/sendData.js"/>" type="text/javascript"></script>
     <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -23,22 +21,36 @@
     <script>
 				
 		<!-- fLogin.jsp에서 로그인하면 메인으로 리다이렉트. -->
- 		var sessionId = '<%= session.getAttribute("id") %>';
+ 		sessionId = '<%= session.getAttribute("id") %>';
  		
  		$(document).ready(function(){
  			var loginBtn = $('#mainLogin');
  			var userId = $('#mainSign');
  			
  			if(sessionId != 'null'){  //세션에 아이디 값이 있으면, 로그인 사라지게 하고, 로그아웃으로 출력해주기
- 				userId.text(sessionId+"님");
+ 				userId.text(sessionId+"님 환영합니다");
  				userId.attr("href","javascript:void(0)");
  				loginBtn.after("<a href='/member/logout' id='mainLogout'>로그아웃</a>");
   				loginBtn.html(" ");
  		
-  				$('#mainLogout').click(function(event){		
+  				$('#mainLogout').click(function(event){
   	 				logoutBtn.hide();
+  	 				window.location.href = "/member/logout";
   	 			});
  			}
  		});
 	</script> 
 </head>
+<body>
+<div id="header-area">
+<div class="container">
+	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
+	<nav class="loginInfo">
+		<a id="mainSign" href="/member/signUp">회원가입</a>
+		<a id="mainLogin" href="/member/fLogin">로그인</a>
+		<a id="mainMusic" href="/member/myMusic">마이뮤직</a>
+		<form role="form" method="post"><input type="hidden" name="logout" /></form>
+	</nav>
+	<div class="clearBoth"></div>	
+</div><!-- .container -->
+</div><!-- .header-area END -->

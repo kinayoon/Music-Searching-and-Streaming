@@ -72,15 +72,15 @@
 			COLLATE='utf8_general_ci'
 			ENGINE=InnoDB;
 			
-	2-6) streaming (스트리밍 카운팅 체크 테이블)
-		CREATE TABLE `streaming` (
-			`title` VARCHAR(120) NOT NULL,
-			`artist` VARCHAR(120) NOT NULL,
-			`album` VARCHAR(120) NOT NULL,
-			`counting` INT(11) NOT NULL AUTO_INCREMENT,
-			`date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-			PRIMARY KEY (`counting`)
-		)
-		COLLATE='utf8_general_ci'
-		ENGINE=InnoDB
+	2-6) favoriteSong (좋아요 클릭한 곡 리스트)
+			CREATE TABLE `song` (
+				`userid` VARCHAR(120) NOT NULL,
+				`album` VARCHAR(120) NOT NULL,
+				`title` VARCHAR(200) NOT NULL,
+				`artist` VARCHAR(120) NOT NULL,
+				`duration` FLOAT NOT NULL,
+				`filepath` VARCHAR(250) NOT NULL
+			)
+			COLLATE='utf8_general_ci'
+			ENGINE=InnoDB;
 				

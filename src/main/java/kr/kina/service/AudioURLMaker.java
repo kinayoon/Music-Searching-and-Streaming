@@ -3,7 +3,7 @@ package kr.kina.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public class URLMaker {  // For access external data (localhost D:/)
+public class AudioURLMaker {  // For access external data (localhost D:/)
 
 	public String urlMaker(String filepath) throws Exception{
 		String url = filepath.substring(13).replace('\\', '/');

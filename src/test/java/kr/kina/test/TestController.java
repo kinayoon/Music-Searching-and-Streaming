@@ -16,56 +16,41 @@ import javax.sound.sampled.AudioSystem;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.Criteria;
+import kr.kina.persistence.SearchDAO;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 
 
 public class TestController {
 	
-
-	@Inject
-	SqlSession session;
+	private static final Logger log = LoggerFactory.getLogger(TestController.class);
 	
+	@Inject
+	SearchDAO dao;
 	
 	@Test
 	public void testMethod(){
+		Criteria cri = new Criteria();
+		cri.setKeyword("a");
+		cri.setPage(10);
+		cri.setPageNum(12);
 		
-       //재생시간 표시할 때
-        String duration = "227985.046875";
-
-        DateFormat format = new SimpleDateFormat("mm:ss");
-  //      String a= format.format(duration);
- //      System.out.println(a);
-
+		try{
+			List<ArtistVO> list = dao.listPageArtist(cri);
+			log.info(list.toString());
 		
-		System.out.println("Test ----");
-	}
-	
-
-	@Test
-	public void testPlayer() throws Exception {
-		
-		AudioInputStream audioInputStream = null;
-	    InputStream buffer = null;
-	    InputStream audio = null;
-		
-	    File file = new File("D:\\genie data\\Music\\[FM] 한국인이 좋아하는 Rock TOP100\\001.Nervama-SmellsLikeTeenSpirit.mp3");
-        String path = "D:\\genie data\\Music\\[FM] 한국인이 좋아하는 Rock TOP100\\001.Nervama-SmellsLikeTeenSpirit.mp3";
-        System.out.println("있냐"+ file.exists());
-        AudioPlayer player = AudioPlayer.player;
-
-
-             audio = new FileInputStream(file);
-             System.out.println(audio);
-             buffer = new BufferedInputStream(audio);
-             System.out.println(buffer);
-
-            audioInputStream = AudioSystem.getAudioInputStream(buffer);
-
-            player.start(audioInputStream);
-		
+			for(ArtistVO vo : list){
+				log.info(vo.getRownum() + " : " + vo.getArtist());
+			}
+			
+		}catch(Exception e){
+			log.info(e.getMessage());
+		}
 		
 	}
 

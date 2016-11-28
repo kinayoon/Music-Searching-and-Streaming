@@ -1,34 +1,24 @@
 package kr.kina.domain;
 
-public class SongVO {
+public class FavoriteSongVO {
 
-	private int rownum;  
-	private int albumid;
+	private String userid;
+	private int rownum;
 	private String album;
 	private String title;  //filename
 	private String artist;
 	private double duration;  // mils -> sec으로 계산.
-	private String tracknum;
-	private String releaseDate;
 	private String filePath;
 	
-	public SongVO(){}
+	public FavoriteSongVO(){}
 	
-	
-	public int getRownum() {
-		return rownum;
+
+	public String getUserid() {
+		return userid;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
-	}
-	
-	public int getAlbumid() {
-		return albumid;
-	}
-
-	public void setAlbumid(int albumid) {
-		this.albumid = albumid;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 
 	public String getAlbum() {
@@ -63,21 +53,15 @@ public class SongVO {
 		this.duration = duration;
 	}
 
-	public String getTrackNum() {
-		return tracknum;
+	public int getRownum() {
+		return rownum;
 	}
 
-	public void setTrackNum(String tracknum) {
-		this.tracknum = tracknum;
+
+	public void setRownum(int rownum) {
+		this.rownum = rownum;
 	}
 
-	public String getReleaseDate() {
-		return releaseDate;
-	}
-
-	public void setReleaseDate(String releaseDate) {
-		this.releaseDate = releaseDate;
-	}
 
 	public String getFilePath() {
 		return filePath;

@@ -2,8 +2,8 @@ package kr.kina.domain;
 
 public class ArtistVO {
 
-	String artist;
-	int rownum;
+	private String artist;
+	private int rownum;
 
 	public ArtistVO(){}
 	

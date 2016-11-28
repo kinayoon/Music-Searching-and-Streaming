@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import kr.kina.domain.AlbumVO;
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.Criteria;
 import kr.kina.domain.SongVO;
 import kr.kina.persistence.SearchDAO;
 
@@ -37,6 +38,24 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public List<AlbumVO> searchAlbum(String searchText) throws Exception {
 		return dao.searchAlbum(searchText);
+	}
+
+
+	@Override
+	public List<ArtistVO> listPageArtist(Criteria criteria) throws Exception {
+		return dao.listPageArtist(criteria);
+	}
+
+
+	@Override
+	public List<SongVO> listPageSong(Criteria criteria) throws Exception {
+		return dao.listPageSong(criteria);
+	}
+
+
+	@Override
+	public List<AlbumVO> listPageAlbum(Criteria criteria) throws Exception {
+		return dao.listPageAlbum(criteria);
 	}
 
 }

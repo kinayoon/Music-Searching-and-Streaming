@@ -4,13 +4,16 @@ import java.util.List;
 
 import kr.kina.domain.AlbumVO;
 import kr.kina.domain.ArtistVO;
+import kr.kina.domain.Criteria;
 import kr.kina.domain.SongVO;
 
 public interface SearchDAO {
 
-	void searchAll(String searchText) throws Exception;    //전체검색
 	List<ArtistVO> searchArtist(String searchText) throws Exception; //아티스트
 	List<AlbumVO> searchAlbum(String searchText) throws Exception;  //앨범
 	List<SongVO> searchSong(String searchText) throws Exception;	//곡
 	
+	List<ArtistVO> listPageArtist(Criteria criteria) throws Exception;
+	List<AlbumVO> listPageAlbum(Criteria criteria) throws Exception;
+	List<SongVO> listPageSong(Criteria criteria) throws Exception;
 }
