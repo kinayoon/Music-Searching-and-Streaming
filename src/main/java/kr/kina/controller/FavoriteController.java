@@ -35,8 +35,10 @@ public class FavoriteController {
 		log.info("like it and save song in myMusic page");
 		String resultMsg = "";
 
+		System.out.println(vo.getUserid());
+		
 		//logout
-		if(vo.getUserid().equals("")){
+		if(vo.getUserid().equals("") || vo.getUserid().equals("null")){
 			resultMsg = "로그인 후 사용해주세요.";
 		}else { //login
 			List<String> result = service.searchDuplicate(vo.getUserid(), vo.getTitle());
