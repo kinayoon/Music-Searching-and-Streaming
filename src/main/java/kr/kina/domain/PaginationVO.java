@@ -5,7 +5,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 public class PaginationVO {
 
-	private int count;  // VO.size()
+	private int count;  
 	private int startPage;
 	private int endPage;
 	private boolean prev;
@@ -74,7 +74,7 @@ public class PaginationVO {
 	}
 	
 	
-	public void calcData(){  //vo.size(); ÃÑ °¹¼ö µé¾î¿À°í 
+	public void calcData(){  
 		endPage = (int) (Math.ceil(cri.getPage()/ (double) displayPageNum) * displayPageNum);
 		startPage = (endPage - displayPageNum) + 1;
 		int tempEndPage = (int) (Math.ceil(count / (double) cri.getPageNum()));

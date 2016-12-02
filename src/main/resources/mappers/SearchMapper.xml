@@ -13,16 +13,10 @@
 </select>
 
 <select id="searchSong" parameterType="String" resultType="kr.kina.domain.SongVO">
-	select
-	@rownum:=@rownum+1 as rownum, b.*
-	from
-	(
-		select title, artist, album, duration, tracknum, filepath
-		from song
-		where title 
-		like CONCAT('%', #{queryText}, '%') 
-	)b,
-	(select @rownum:=0) R	 
+	select title, artist, album, duration, tracknum, filepath
+	from song
+	where title 
+	like CONCAT('%', #{queryText}, '%') 
 </select>
 
 <select id="searchAlbum" parameterType="String" resultType="kr.kina.domain.AlbumVO">
@@ -41,16 +35,10 @@
 </select>
 
 <select id="listSong" resultType="kr.kina.domain.SongVO">
-	select
-	@rownum:=@rownum+1 as rownum, b.*
-	from
-	(
-		select title, artist, album, duration, tracknum, filepath
-		from song
-		where title like CONCAT('%', #{keyword}, '%')
-		limit #{pageStart}, #{pageNum}
-	)b,
-	(select @rownum:=0) R
+	select title, artist, album, duration, tracknum, filepath
+	from song
+	where title like CONCAT('%', #{keyword}, '%')
+	limit #{pageStart}, #{pageNum}
 </select>
 
 <select id="listAlbum" resultType="kr.kina.domain.AlbumVO">

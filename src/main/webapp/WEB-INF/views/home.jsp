@@ -35,8 +35,6 @@ $('#searchEnter').click(function(){
 		window.location.href = window.location.href.split("?")[0];
 	}
 }); 
-
-
 </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

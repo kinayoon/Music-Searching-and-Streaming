@@ -37,7 +37,7 @@ public class DetailController {
 		
 		if(size >= 1)	model.addAttribute("resultArtistSize", size);	
 		else            model.addAttribute("resultArtistSize", "이 없습니다.");
-		
+				
 		model.addAttribute("SongByArtist", songVO);
 		model.addAttribute("artistTxt", artist);
 	}

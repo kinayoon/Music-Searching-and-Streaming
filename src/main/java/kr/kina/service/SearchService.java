@@ -16,4 +16,6 @@ public interface SearchService {
 	List<ArtistVO> listPageArtist(Criteria criteria) throws Exception;  //pagination
 	List<SongVO> listPageSong(Criteria criteria) throws Exception;  	//pagination
 	List<AlbumVO> listPageAlbum(Criteria criteria) throws Exception; 	//pagination
+	
+
 }

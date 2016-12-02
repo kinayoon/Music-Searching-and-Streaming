@@ -3,11 +3,10 @@ package kr.kina.domain;
 public class FavoriteSongVO {
 
 	private String userid;
-	private int rownum;
 	private String album;
-	private String title;  //filename
+	private String title;  
 	private String artist;
-	private double duration;  // mils -> sec으로 계산.
+	private double duration;  
 	private String filePath;
 	
 	public FavoriteSongVO(){}
@@ -52,16 +51,6 @@ public class FavoriteSongVO {
 	public void setDuration(double duration) {
 		this.duration = duration;
 	}
-
-	public int getRownum() {
-		return rownum;
-	}
-
-
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
-	}
-
 
 	public String getFilePath() {
 		return filePath;

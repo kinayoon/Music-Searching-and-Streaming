@@ -10,19 +10,14 @@ srcData = new Array();   //audioURL Array
 titleData = new Array(); //song title
 
 $(document).ready(function(){
+	
 	//parsing data from parent window(searchMain.jsp)
 	allData = window.opener.totalforPrint;  
-	afterData = window.opener.afterforPrint;
-	
+
 	//play music 
 	if( typeof allData != "undefined" || allData != null){
 		parsingSongData(allData);
-	}
-	
-	//play add
-	if(afterData.length != 0){
-		parsingSongData(allData);
-	}
+	}	
 
 	//Trigger passing next song when ended playing song
 	audio.on('ended', function(){
@@ -32,24 +27,27 @@ $(document).ready(function(){
 
 
 function parsingSongData(data){ // Array > Array > Object (3dept)
+	var indexing = 0;
 	
 	for(var j=0; j<data.length; j++){  //Array
-		var allData = data[j]; //Array
-		
-		for(var i=0; i<allData.length; i++){ //Object
+		var objArr = data[j]; //Array
+	
+		for(var i=0; i<objArr.length; i++){ //Object
 			
-			var no = i+1;
-			var title = allData[i].title;
-			var artist = allData[i].artist;
-			var album = allData[i].album;
-			var date = new Date(parseInt(allData[i].duration));
+			var no = indexing+1;
+			var title = objArr[i].title;
+			var artist = objArr[i].artist;
+			var album = objArr[i].album;
+			var date = new Date(parseInt(objArr[i].duration));
 			var mm = date.getMinutes();
 			var ss = date.getSeconds();			
-			var audiosrc = allData[i].audioSrc;
+			var audiosrc = objArr[i].audioSrc;
 			dynamicList(no, title, artist, album, mm, ss, audiosrc);
 
 			srcData.push(audiosrc);
-			titleData.push(title);	
+			titleData.push(title);
+			
+			indexing++;
 		}		
 	}
 	index = 0;

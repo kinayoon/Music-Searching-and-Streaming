@@ -25,5 +25,5 @@ if(LoginResult == "Login"){
 	location.href="/";
 }
   </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

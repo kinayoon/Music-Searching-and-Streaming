@@ -34,8 +34,13 @@ public class FavoriteServiceImpl implements FavoriteService{
 	}
 
 	@Override
-	public Object searchDuplicate(String id, String title) throws Exception {
+	public List<String> searchDuplicate(String id, String title) throws Exception {
 		return dao.searchDuplicate(id, title);
+	}
+
+	@Override
+	public void deleteFavoriteSong(String id) throws Exception {
+		dao.deleteFavoriteSong(id);
 	}
 
 }

@@ -6,6 +6,7 @@ public class Criteria {
 	private int pageNum; //12
 	private String keyword; 
 
+	
 	public Criteria(){
 		this.page = 1;
 		this.pageNum = 12;

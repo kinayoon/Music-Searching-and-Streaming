@@ -34,10 +34,15 @@ public class FavoriteDAOImpl implements FavoriteDAO{
 	}
 
 	@Override
-	public Object searchDuplicate(String id, String title) throws Exception {
+	public List<String> searchDuplicate(String id, String title) throws Exception {
 		Map<String, String> paramMap = new HashMap<>();
 		paramMap.put("userid", id);
 		paramMap.put("title", title);
-		return session.selectOne(namespace+".searchDuplicate", paramMap);
+		return session.selectList(namespace+".searchDuplicate", paramMap);
+	}
+
+	@Override
+	public void deleteFavoriteSong(String id) throws Exception {
+		session.delete(namespace+".deleteFavoriteSong", id);		
 	}
 }

@@ -1,8 +1,7 @@
 package kr.kina.domain;
 
 public class SongVO {
-
-	private int rownum;  
+ 
 	private int albumid;
 	private String album;
 	private String title;  //filename
@@ -13,16 +12,7 @@ public class SongVO {
 	private String filePath;
 	
 	public SongVO(){}
-	
-	
-	public int getRownum() {
-		return rownum;
-	}
-
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
-	}
-	
+		
 	public int getAlbumid() {
 		return albumid;
 	}

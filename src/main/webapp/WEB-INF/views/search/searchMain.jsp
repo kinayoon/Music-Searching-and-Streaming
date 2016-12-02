@@ -6,7 +6,6 @@
 document.title="${searchText}"+"- 통합검색";
 sessionId = '<%= session.getAttribute("id") %>'; 
 
-
 </script>
 <div class="container">
 	<div class="main-search">
@@ -78,17 +77,17 @@ sessionId = '<%= session.getAttribute("id") %>';
 					request.setAttribute("moreSongList", "14");
 				}
 			%>
-				<c:forEach items="${songList}" var="songVO" begin="0" end="${moreSongList}">
+				<c:forEach items="${songList}" var="songVO" begin="0" end="${moreSongList}" varStatus="status">
 					<tr>
-						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${songVO.rownum}"/></div></td>
-						<td><div class="num">${songVO.rownum}</div></td>
+						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${status.count}"/></div></td>
+						<td><div class="num">${status.count}</div></td>
 						<td><div class="title">${songVO.title}</div></td>
 						<td><div class="artist">${songVO.artist}</div></td>
 						<td><div class="album">${songVO.album}</div></td>
-						<td><div class="likeit"><a href="javascript:likeit(${songVO.rownum});">좋아요</a></div></td>
+						<td><div class="likeit"><a href="javascript:likeit(${status.count});">좋아요</a></div></td>
 						<td>
 						<div class="play">
-						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
+						<a href="javascript:playnow(${status.count});">듣기</a>
 						
 							<form name ="paramValue">				
 							<input type="hidden" name="title" value="${songVO.title}" />
@@ -160,5 +159,5 @@ sessionId = '<%= session.getAttribute("id") %>';
 		
 </div><!-- .result END -->
 </div><!-- .container END -->
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

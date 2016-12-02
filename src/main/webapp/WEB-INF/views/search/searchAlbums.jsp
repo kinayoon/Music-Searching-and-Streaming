@@ -15,7 +15,7 @@ document.title="${searchTxt}"+"- 앨범검색";
 	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
-		<p class="albumName">앨범<span> (${albumNum}) </span></p>
+		<p class="albumName">앨범<span> (${pagination.count}) </span></p>
 		<div id="section" class="albumBox">
 			<c:forEach items="${albumList}" var="albumVO"> 
 			<div class="box">
@@ -32,8 +32,8 @@ document.title="${searchTxt}"+"- 앨범검색";
 			
 		</div><!-- .albumBox END -->	
 	</div><!-- .result END -->
-	
-	<!-- pagination -->
+
+<!-- pagination -->
 <div class="text-center">
 	<ul class="pagination">	
 			
@@ -54,15 +54,14 @@ document.title="${searchTxt}"+"- 앨범검색";
 	
 	</ul>
 </div><!-- .pagination -->
-
-</div><!-- .container END -->
+</div><!-- .container -->
 
 <script>
-var resultNumber = ${albumNum};
+var resultNumber = ${pagination.count};
 
 if (resultNumber == 0){
 	$('.albumBox').after("<p class='resultNull'>검색한 결과가 없습니다.</p>");
 }
 </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

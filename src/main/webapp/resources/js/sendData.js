@@ -6,7 +6,6 @@
 //Global Var
 var popupPlayer;  //popup (child window)
 totalforPrint = new Array(); //total playlist
-afterforPrint = new Array(); 
 doc = document;  //window
 
 //CheckBox total check event
@@ -27,14 +26,12 @@ function likeit(no){  //해당 곡의 데이터를
 	var likeitSong = songWrapper(doc.paramValue[no-1]);
 	likeitSong.userid = sessionId;	
 
-	
 	$.ajax({
 			type : "POST",
 			url  : "/favorite/savedSong",
 			data : JSON.stringify(likeitSong),
 			success : function(result) {
-				var txt = result;
-				alert(txt);
+				alert(result);
 			},
 			error:function(request,status,error){
 		        console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -46,17 +43,6 @@ function likeit(no){  //해당 곡의 데이터를
 		});
 }
 
-// make song Object
-function songWrapper(form){
-	var oneObj = {
-		"title" : form.title.value,
-		"artist" : form.artist.value,
-		"album" : form.album.value,
-		"duration" : form.duration.value,
-		"filePath" : form.filePath.value
-	};
-	return oneObj;
-}
 
 //Play All data --> Array
 function allsongWrapper(){
@@ -66,6 +52,18 @@ function allsongWrapper(){
 		allArr.push(songWrapper(allforms[i]));
 	}
 	return allArr;
+}
+
+//make song Object
+function songWrapper(form){
+	var oneObj = {
+		"title" : form.title.value,
+		"artist" : form.artist.value,
+		"album" : form.album.value,
+		"duration" : form.duration.value,
+		"filePath" : form.filePath.value
+	};
+	return oneObj;
 }
 
 //Make index array clicked checkBox
@@ -82,28 +80,84 @@ function checkedSong(jQuery){
 		});
 	}else if(checkLen == 1){
 		numArr[0] = check.val();
-	}
+	}	
 	return numArr;
 }
 
+function numberingConverter(){
+	var checkList = checkedSong();
+	var totalNumbering = new Array();
+	
+	var currentPage = window.location.href.split("&");
+	var cpage= currentPage[1].split("=");
+	var pageNumber = cpage[1];
+	
+	if(pageNumber > 1){
+		for(var i=0; i<checkList.length; i++){
+			var firstNumber = parseInt(checkList[i])-(pageNumber-1)*16;   // 체크된 값-((체크된 값-1)*한 페이지 데이터수)-1
+			totalNumbering.push(firstNumber);
+		}	
+	}else {
+		for(var i=0; i<checkList.length; i++){
+			var firstNumber = parseInt(checkList[i]);
+			totalNumbering.push(firstNumber);
+		}
+	}
+	return totalNumbering;
+}
+
+
 //Create Selected Song Data
 function playAdd(){
-	var checked = checkedSong();	
-	var addSongArr = new Array();  //total selected data
+	var nowpage = window.location.href;
 	
+	if(nowpage.indexOf("page") != -1){
+		var checked = numberingConverter();
+	}else{
+		var checked = checkedSong();
+	}
+	var addSongArr = new Array();  //total selected data
+		
 	if(checked.length == 0){
 		alert("담고 싶은 노래에 체크를 해주세요.");
+	
 	}else{
-		
 		for(var i=0; i<checked.length; i++){
 			var idx = checked[i];
-			idx = parseInt(idx);
-		
+			idx = parseInt(idx);			
 			var addObj = songWrapper(doc.paramValue[idx-1]);
 			addSongArr.push(addObj);
 		}
 		returnUrl(addSongArr);
 		playing();
+	}
+}
+
+//Delete songList in myMusic 
+function playAllDel(){
+	
+	if( $(".songBox table tbody").text().trim() == ""){
+		alert("삭제할 데이터가 없습니다.");
+	}else{
+		if(confirm("정말 삭제하시겠습니까?")){
+			$.ajax({
+				type : "POST",
+				url  : "/member/myMusic",
+				success : function(data) {
+					$(".songBox table tbody").text("");
+					alert("모두 삭제되었습니다.");	
+				},
+				error : function(err){
+					alert("삭제하는데 실패했습니다.");
+				},
+				headers : {
+					'Accept' : 'application/json; charset=UTF-8',
+					'Content-Type' : 'application/json; charset=UTF-8'
+				}
+			});
+		}else{
+			return;
+		}
 	}
 }
 
@@ -120,7 +174,6 @@ function playnow(no){
 		var song = songWrapper(playform);
 		oneArr.push(song);
 	}
-	afterforPrint = new Array();  //newer
 	totalforPrint = new Array(); //newer
 	returnUrl(oneArr); 
 	playing();
@@ -147,10 +200,8 @@ function returnUrl(data){
 		url  : "/player/playList",
 		data : JSON.stringify(data),
 		success : function(urlData) {
-			if(totalforPrint == null){
-				afterforPrint.push(urlData);
-			}else{
-				totalforPrint.push(urlData); //Before redirect this window, added song
+			if(totalforPrint.length != null){  
+				totalforPrint.push(urlData); 
 			}
 		},
 		error : function(err){

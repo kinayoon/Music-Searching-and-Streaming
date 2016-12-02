@@ -17,7 +17,7 @@ document.title="${searchTxt}"+"- 아티스트검색";
 	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
-	<p class="artistName">아티스트<span> (${artistNum}) </span></p>
+	<p class="artistName">아티스트<span> (${pagination.count}) </span></p>
 	<div id="section" class="aritstBox">
 	
 		<c:forEach items="${artistList}" var="artistVO">
@@ -33,13 +33,36 @@ document.title="${searchTxt}"+"- 아티스트검색";
 		<div class="clearBoth"></div>
 	</div> <!-- .artistBox END -->
 	</div><!-- .result END -->
-</div><!-- .container END -->
+
+<!-- pagination -->
+<div class="text-center">
+	<ul class="pagination">	
+			
+	<c:if test="${pagination.prev}">
+		<li><a href="/search/searchArtists${pagination.makeSearch(pagination.startPage -1)}">&laquo;</a></li>
+	</c:if>
+	
+	<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+	<li 
+		<c:out value="${pagination.cri.page == idx?'class=active':''}"/>>
+			<a href="/search/searchArtists${pagination.makeSearch(idx)}">${idx}</a>
+	</li> 
+	</c:forEach>
+			
+	<c:if test="${pagination.next}">
+		<li><a href="/search/searchArtists${pagination.makeSearch(pagination.endPage +1)}">&raquo;</a></li>
+	</c:if>
+	
+	</ul>
+</div><!-- .pagination -->
+</div><!-- .container -->
+
 <script>
-var resultNumber = "${artistNum}";
+var resultNumber = "${pagination.count}";
 
 if (resultNumber == 0){
 	$('.artistBox').after("<p class='resultNull'>검색한 결과가 없습니다.</p>");
 }
 </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

@@ -5,19 +5,15 @@
 <script>
 document.title="${albumTitle}"+"- 앨범 검색";
 </script>
-<body>
-<div id="header-area">
-	<div class="container">
-	<h3><a href="<c:url value='/'/>">Music Box</a></h3>
+
+<div class="container">
+	<div class="main-search">
 	<form id="ArtistSearch" role="form" method="get" action="artist">
 		<input type="text" value="${albumTitle}" name="artist" required/>
 		<input type="submit" value="검색" />
 	</form>
 	</div>
-</div><!-- .header-area END -->
-
-<div class="container">
-	<p class="resultInfo"><span>'${albumTitle}'</span>에 대한 검색결과입니다.</p>
+<p class="resultInfo"><span>'${albumTitle}'</span>에 대한 검색결과입니다.</p>
 	
 <div id="result">
 	<p class="albumName">앨범<span> ${albumTitle}</span> 아티스트 <span>${albumArtist}</span></p>
@@ -36,18 +32,18 @@ document.title="${albumTitle}"+"- 앨범 검색";
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${SongByAlbum}" var="songVO">
+				<c:forEach items="${SongByAlbum}" var="songVO" varStatus="status">
 					<tr>
-						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${songVO.rownum}"/></div></td>
-						<td><div class="num">${songVO.rownum}</div></td>
+						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${status.count}"/></div></td>
+						<td><div class="num">${status.count}</div></td>
 						<td><div class="album">${songVO.album}</div></td>
 						<td><div class="title">${songVO.title}</div></td>
 						<td><div class="tracknum">${songVO.trackNum}</div></td>
 						<td><div class="artist">${songVO.artist}</div></td>
-						<td><div class="likeit"><a href="#">좋아요</a></div></td>
+						<td><div class="likeit"><a href="javascript:likeit(${status.count});">좋아요</a></div></td>
 						<td>
 						<div class="play">
-						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
+						<a href="javascript:playnow(${status.count});">듣기</a>
 						
 							<form name ="paramValue">				
 							<input type="hidden" name="title" value="${songVO.title}"/>
@@ -71,5 +67,5 @@ document.title="${albumTitle}"+"- 앨범 검색";
 	</div> <!-- .artistBox END -->
 </div><!-- .result END -->
 </div><!-- .container END -->
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

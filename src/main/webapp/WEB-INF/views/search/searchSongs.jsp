@@ -16,7 +16,7 @@ document.title="${searchTxt}"+"- 곡 검색";
 	<p class="resultInfo"><span>'${searchTxt}'</span>에 대한 검색결과입니다.</p>
 	
 	<div id="result">
-	<p class="songName">곡 <span> (${songNum}) </span></p>
+	<p class="songName">곡 <span> (${pagination.count}) </span></p>
 	<div id="section" class="songBox">
 		<table>
 			<thead>
@@ -31,29 +31,29 @@ document.title="${searchTxt}"+"- 곡 검색";
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${songList}" var="songVO">
-					<tr>
-						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${songVO.rownum}"/></div></td>
-						<td><div class="num">${songVO.rownum}</div></td>
-						<td><div class="title">${songVO.title}</div></td>
-						<td><div class="artist">${songVO.artist}</div></td>
-						<td><div class="album">${songVO.album}</div></td>
-						<td><div class="likeit"><a href="#">좋아요</a></div></td>
-						<td>
-						<div class="play">
-						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
+				<c:forEach items="${songList}" var="songVO" varStatus="status">
+				<tr>
+					<td><div class="checkSong"><input type="checkbox" name="addsong" value="${startNum}"/></div></td>
+					<td><div class="num"><c:out value="${startNum}"/></div></td>
+					<td><div class="title">${songVO.title}</div></td>
+					<td><div class="artist">${songVO.artist}</div></td>
+					<td><div class="album">${songVO.album}</div></td>
+					<td><div class="likeit"><a href="javascript:likeit(${status.count});">좋아요</a></div></td>
+					<td>
+					<div class="play">
+						<a href="javascript:playnow(${status.count});">듣기</a>
 						
-							<form name ="paramValue">				
-							<input type="hidden" name="title" value="${songVO.title}"/>
-							<input type="hidden" name="artist" value="${songVO.artist}"/>
-							<input type="hidden" name="album" value="${songVO.album}" />
-							<input type="hidden" name="duration" value="${songVO.duration}"/>
-							<input type="hidden" name="filePath" value="${songVO.filePath}" />
-							</form>
-							
-						</div></td>
-					</tr>
-				</c:forEach>
+						<form name ="paramValue">				
+						<input type="hidden" name="title" value="${songVO.title}"/>
+						<input type="hidden" name="artist" value="${songVO.artist}"/>
+						<input type="hidden" name="album" value="${songVO.album}" />
+						<input type="hidden" name="duration" value="${songVO.duration}"/>
+						<input type="hidden" name="filePath" value="${songVO.filePath}" />
+						</form>
+					</div></td>
+				</tr>
+					<c:set var="startNum" value="${startNum+1}" />
+					</c:forEach>				
 			</tbody>
 			<tr>
 				<span class="playAll"><a href="javascript:playAllNow();">전체듣기</a></span> <span> | </span>
@@ -62,14 +62,35 @@ document.title="${searchTxt}"+"- 곡 검색";
 		</table>		
 	</div><!-- .songBox END -->
 	</div><!-- .result END -->
-</div><!-- .container END -->
+
+<!-- pagination -->
+<div class="text-center">
+	<ul class="pagination">	
+			
+	<c:if test="${pagination.prev}">
+		<li><a href="/search/searchSongs${pagination.makeSearch(pagination.startPage -1)}">&laquo;</a></li>
+	</c:if>
+	
+	<c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+	<li 
+		<c:out value="${pagination.cri.page == idx?'class=active':''}"/>>
+			<a href="/search/searchSongs${pagination.makeSearch(idx)}">${idx}</a>
+	</li> 
+	</c:forEach>
+			
+	<c:if test="${pagination.next}">
+		<li><a href="/search/searchSongs${pagination.makeSearch(pagination.endPage +1)}">&raquo;</a></li>
+	</c:if>
+	
+	</ul>
+</div><!-- .pagination -->
+</div><!-- .container -->
 
 <script>
-var resultNumber = ${songNum};
+var resultNumber = ${pagination.count};
 if (resultNumber == 0){
 	$('.songBox').after("<p class='resultNull'>검색한 결과가 없습니다.</p>");
 }
-
 </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

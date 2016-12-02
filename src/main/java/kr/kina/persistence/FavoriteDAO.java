@@ -10,5 +10,6 @@ public interface FavoriteDAO {
 
 	void likeitSong(FavoriteSongVO vo) throws Exception;
 	List<SongVO> searchSong(String userid) throws Exception;
-	Object searchDuplicate(String id, String title) throws Exception; 
+	List<String> searchDuplicate(String id, String title) throws Exception; 
+	void deleteFavoriteSong(String id) throws Exception;
 }

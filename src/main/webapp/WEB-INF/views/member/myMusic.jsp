@@ -21,22 +21,20 @@
 					<th class="col-3"><div class="title">곡명</div></th>
 					<th class="col-4"><div class="artist">아티스트</div></th>
 					<th class="col-5"><div class="album">앨범</div></th>
-					<th class="col-6"><div class="likeit">좋아요</div></th>
 					<th class="col-7"><div class="playnow">듣기</div></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${favoriteSongList}" var="songVO">
+				<c:forEach items="${favoriteSongList}" var="songVO" varStatus="status">
 					<tr>
-						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${songVO.rownum}"/></div></td>
-						<td><div class="num">${songVO.rownum}</div></td>
+						<td><div class="checkSong"><input type="checkbox" name="addsong" value="${status.count}"/></div></td>
+						<td><div class="num">${status.count}</div></td>
 						<td><div class="title">${songVO.title}</div></td>
 						<td><div class="artist">${songVO.artist}</div></td>
 						<td><div class="album">${songVO.album}</div></td>
-						<td><div class="likeit"><a href="javascript:likeit(${songVO.rownum});">좋아요</a></div></td>
 						<td>
 						<div class="play">
-						<a href="javascript:playnow(${songVO.rownum});">듣기</a>
+						<a href="javascript:playnow(${status.count});">듣기</a>
 						
 							<form name ="paramValue">				
 							<input type="hidden" name="title" value="${songVO.title}" />
@@ -52,7 +50,8 @@
 			</tbody>
 			<tr>
 				<span class="playAll"><a href="javascript:playAllNow();">전체듣기</a></span> <span> | </span>
-				<span class="playOne"><a href="javascript:playAdd();">담기</a></span>
+				<span class="playAllDel"><a href="javascript:playAllDel();">전체삭제</a></span>  <span> | </span>
+				<span class="playOne"><a href="javascript:playAdd();">담기</a></span> 
 			</tr>
 		</table>		
 	</div><!-- .songBox END -->		
@@ -80,5 +79,5 @@ $('#searchEnter').click(function(){
 	}
 }); 
 </script>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

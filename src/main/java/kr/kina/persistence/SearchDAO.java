@@ -16,4 +16,6 @@ public interface SearchDAO {
 	List<ArtistVO> listPageArtist(Criteria criteria) throws Exception;
 	List<AlbumVO> listPageAlbum(Criteria criteria) throws Exception;
 	List<SongVO> listPageSong(Criteria criteria) throws Exception;
+	
+
 }

@@ -69,8 +69,14 @@ public class SearchController {
 		List<ArtistVO> artistVO = service.listPageArtist(criteria);
 		
 		model.addAttribute("artistList", artistVO);
-		model.addAttribute("artistNum", service.searchArtist(criteria.getKeyword()).size());
 		model.addAttribute("searchTxt", criteria.getKeyword());
+		
+		PaginationVO maker = new PaginationVO();
+		maker.setCri(criteria);
+		maker.setCount(service.searchArtist(criteria.getKeyword()).size());
+		
+		model.addAttribute("pagination", maker);
+		
 	}
 	
 	@RequestMapping(value="/searchSongs", method=RequestMethod.GET)
@@ -78,10 +84,27 @@ public class SearchController {
 		log.debug("searchSongs Controller");
 		
 		List<SongVO> songVO = service.listPageSong(criteria);
-		
+		int totalCount = service.searchSong(criteria.getKeyword()).size();
+				
 		model.addAttribute("songList", songVO);
-		model.addAttribute("songNum", service.searchSong(criteria.getKeyword()).size());
 		model.addAttribute("searchTxt", criteria.getKeyword());
+		
+		PaginationVO maker = new PaginationVO();
+		maker.setCri(criteria);
+		maker.setCount(totalCount);
+
+		model.addAttribute("pagination", maker);
+
+		//make list numbering
+		int curPage = criteria.getPage(); //현재 페이지
+		int startNum; 
+		
+		if(curPage > 1){
+			startNum = curPage + (curPage-1) * 15;
+			model.addAttribute("startNum", startNum);
+		}else if(curPage == 1){
+			model.addAttribute("startNum", Integer.parseInt("1"));			
+		}
 	}
 	
 	@RequestMapping(value="/searchAlbums", method=RequestMethod.GET)
@@ -91,12 +114,11 @@ public class SearchController {
 		List<AlbumVO> albumVO = service.listPageAlbum(criteria);
 		
 		model.addAttribute("albumList", albumVO);
-		model.addAttribute("albumNum", service.searchAlbum(criteria.getKeyword()).size());
 		model.addAttribute("searchTxt", criteria.getKeyword());
 		
 		PaginationVO maker = new PaginationVO();
 		maker.setCri(criteria);		
-		maker.setCount(albumVO.size());
+		maker.setCount(service.searchAlbum(criteria.getKeyword()).size());
 		
 		model.addAttribute("pagination", maker);
 	}
