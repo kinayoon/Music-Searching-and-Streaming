@@ -35,4 +35,6 @@
  - DB : MySQL 5.1.60
  
 ### 3. Architecture
+
 ### 4. Preview Video    
+[Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
