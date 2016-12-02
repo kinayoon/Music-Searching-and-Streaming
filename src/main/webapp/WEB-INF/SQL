@@ -22,18 +22,7 @@
 			ENGINE=InnoDB;
 
 
-     2-2) member_login (회원 로그인 시간기록)
-			CREATE TABLE `member_login` (
-				`id` VARCHAR(16) NOT NULL,
-				`loginTime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-				PRIMARY KEY (`id`),
-				CONSTRAINT `fk_id` FOREIGN KEY (`id`) REFERENCES `member` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-			)
-			COLLATE='utf8_general_ci'
-			ENGINE=InnoDB;
-
-
-	2-3) Artist (아티스트)
+	2-2) Artist (아티스트)
 			CREATE TABLE `artists` (
 				`artist` VARCHAR(250) NOT NULL,
 				PRIMARY KEY (`artist`)
@@ -43,7 +32,7 @@
 			           
      
  
-	2-4) album(앨범)
+	2-3) album(앨범)
 			CREATE TABLE `album` (
 				`albumid` INT(11) NOT NULL AUTO_INCREMENT,
 				`album` VARCHAR(120) NOT NULL,
@@ -58,7 +47,7 @@
 			ENGINE=InnoDB;
 
      
-	2-5) song (곡)
+	2-4) song (곡)
 			CREATE TABLE `song` (
 				`albumid` INT(11) NOT NULL,
 				`album` VARCHAR(120) NOT NULL,
@@ -72,7 +61,7 @@
 			COLLATE='utf8_general_ci'
 			ENGINE=InnoDB;
 			
-	2-6) favoriteSong (좋아요 클릭한 곡 리스트)
+	2-5) favoriteSong (좋아요 클릭한 곡 리스트)
 			CREATE TABLE `song` (
 				`userid` VARCHAR(120) NOT NULL,
 				`album` VARCHAR(120) NOT NULL,

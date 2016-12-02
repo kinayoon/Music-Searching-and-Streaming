@@ -45,12 +45,11 @@ public class MemberController {
 	 *   @return  String xxx.jsp
 	 */
 	@RequestMapping(value="/signUp", method=RequestMethod.POST)
-	public String signUpPOST(MemberVO member, RedirectAttributes rttr, Model model) throws Exception {
+	public String signUpPOST(MemberVO member, RedirectAttributes attr) throws Exception {
 		log.info("SignUp POST ..");
 		service.signUp(member);
 		
-		rttr.addAttribute("msg", "SUCCESS");
-		model.addAttribute("userid", member.getId());
+		attr.addFlashAttribute("SignUpMsg", "SUCCESS");
 		return "redirect:/";
 	}
 	

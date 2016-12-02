@@ -35,6 +35,11 @@ $('#searchEnter').click(function(){
 		window.location.href = window.location.href.split("?")[0];
 	}
 }); 
+
+var resultMsg = '${SignUpMsg}';
+if(resultMsg == "SUCCESS"){
+	alert("회원가입 되었습니다. 로그인 후 이용해주세요");
+}
 </script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>
