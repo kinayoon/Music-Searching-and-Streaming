@@ -4,8 +4,7 @@
 ## Table of Contents
  1. Features
  2. Development Environment
- 3. Architecture
- 4. Preview Video
+ 3. Preview Video
  
 
 ### 1. Features
@@ -34,7 +33,5 @@
  - Language : Java 1.8, HTML, CSS, Javascript, JQuery
  - DB : MySQL 5.1.60
  
-### 3. Architecture
-
-### 4. Preview Video    
+### 3. Preview Video    
   - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
