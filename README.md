@@ -37,4 +37,4 @@
 ### 3. Architecture
 
 ### 4. Preview Video    
-[Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
+  - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
