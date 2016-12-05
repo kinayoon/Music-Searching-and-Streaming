@@ -41,7 +41,7 @@
   - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
   
 ### 4. Download Word file
- [Follwe me! ----> For more information, see!](https://github.com/kinayoon/Music-Searching-and-Streaming/files/630799/Music.Searching.and.Streaming.docx)
+  - [Follwe me! ----> For more information, see!](https://github.com/kinayoon/Music-Searching-and-Streaming/files/630799/Music.Searching.and.Streaming.docx)
 
 ### 5. Basic Architecture
    ![basic](https://cloud.githubusercontent.com/assets/21224368/20875725/4f7bcf12-bb00-11e6-92c1-1591b5e62fd3.JPG)
