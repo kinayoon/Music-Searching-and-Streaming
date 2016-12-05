@@ -5,6 +5,7 @@
  1. Features
  2. Development Environment
  3. Preview Video
+ 4. Basic Architecture
  
 
 ### 1. Features
@@ -35,3 +36,8 @@
  
 ### 3. Preview Video    
   - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
+  
+### 4. Basic Architecture
+   ![Basic Architecture](https://cloud.githubusercontent.com/assets/21224368/20875457/5326748e-bafe-11e6-998e-d5b83912a999.png)
+
+
