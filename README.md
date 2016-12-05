@@ -31,8 +31,9 @@
  - IDE : STS (Spring Tool Suite) 3.8.1.RELEASE
  - WAS : Tomcat 7.0
  - OS : Window7 (64 bit)
- - Language : Java 1.8, HTML, CSS, Javascript, JQuery
+ - Language : Java 1.8, HTML, CSS, Javascript, JQuery, Ajax
  - DB : MySQL 5.1.60
+ - Persistence Framework : MyBatis 
  
 ### 3. Preview Video    
   - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
