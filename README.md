@@ -5,7 +5,7 @@
  1. Features
  2. Development Environment
  3. Preview Video
- 4. Download Word file 
+ 4. Download PDF file 
  5. Basic Architecture
 
  
@@ -40,7 +40,7 @@
 ### 3. Preview Video    
   - [Follow me! ----> Youtube](https://youtu.be/PJmvVzF63wY)
   
-### 4. Download Word file
+### 4. Download PDF file
   - [Follwe me! ----> For more information, see!](https://github.com/kinayoon/Music-Searching-and-Streaming/files/648239/spring.project.music_streaming.pdf)
 
 
